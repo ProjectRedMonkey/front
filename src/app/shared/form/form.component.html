@@ -1,0 +1,15 @@
+<h2 mat-dialog-title>Ajouter un livre</h2>
+
+<mat-dialog-content>
+  <form #f="ngForm">
+    <input name="title" placeholder="Titre" ngModel><br>
+    <input name="author" placeholder="Auteur" ngModel>
+
+  </form>
+</mat-dialog-content>
+
+
+<mat-dialog-actions align="end">
+  <button mat-button type="button" (click)="cancel()">Cancel</button>
+  <button mat-button color="primary" type="submit" (click)="save(f.value)">Save</button>
+</mat-dialog-actions>

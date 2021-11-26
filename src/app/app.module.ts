@@ -9,6 +9,19 @@ import { BooksComponent } from './books/books.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import {MatToolbarModule} from "@angular/material/toolbar";
 import { BookViewComponent } from './book-view/book-view.component';
+import {MatDialogModule} from "@angular/material/dialog";
+import { DialogComponent } from './shared/dialog/dialog.component';
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import { FormComponent } from './shared/form/form.component';
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {HttpClientModule} from "@angular/common/http";
+import {MatCardModule} from "@angular/material/card";
+import {MatButtonModule} from "@angular/material/button";
+import {MatListModule} from "@angular/material/list";
+import {MatIconModule} from "@angular/material/icon";
+import {MatCheckboxModule} from "@angular/material/checkbox";
+import {MatInputModule} from "@angular/material/input";
+import {MatFormFieldModule} from "@angular/material/form-field";
 
 const appRoutes: Routes= [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -25,12 +38,26 @@ const appRoutes: Routes= [
     BookComponent,
     BooksComponent,
     PageNotFoundComponent,
-    BookViewComponent
+    BookViewComponent,
+    DialogComponent,
+    FormComponent
   ],
   imports: [
     BrowserModule,
-    RouterModule.forRoot(appRoutes),
-    MatToolbarModule
+    BrowserAnimationsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    MatToolbarModule,
+    MatCardModule,
+    MatButtonModule,
+    MatListModule,
+    MatIconModule,
+    MatCheckboxModule,
+    MatDialogModule,
+    MatInputModule,
+    MatFormFieldModule,
+    FormsModule,
+    RouterModule.forRoot(appRoutes)
   ],
   providers: [],
   bootstrap: [AppComponent]

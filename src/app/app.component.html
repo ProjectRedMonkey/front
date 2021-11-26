@@ -1,6 +1,7 @@
 <mat-toolbar class="extend-toolbar">
   <a [routerLink]="['/home']">Accueil</a>
   <a [routerLink]="['/books']">Liste</a>
+  <a (click)="showDialog()" *ngIf="dialogStatus === 'inactive'">Ajouter</a>
 </mat-toolbar>
 
 <section class="container">
