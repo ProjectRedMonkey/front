@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {BOOKS} from "../static/books";
 import {ActivatedRoute} from "@angular/router";
-import {filter, merge, mergeMap, tap} from "rxjs";
-import {Book} from "../types/book.type";
 
 @Component({
   selector: 'app-book-view',
@@ -21,7 +19,7 @@ export class BookViewComponent implements OnInit {
     this._route.params.subscribe(params => {
       this.id = params['id'];
     });
-    this._book = BOOKS.find(element => element.id == this.id)
+    this._book = BOOKS.find(element => element.id == this.id);
   }
 
   get book(): any {
@@ -32,4 +30,14 @@ export class BookViewComponent implements OnInit {
     this._book = value;
   }
 
+  click() {
+    var text = window.getSelection();
+    if (text != null) {
+      if (!text.isCollapsed) {
+        console.log(text.toString());
+      } else {
+        console.log("Aucune donnée");
+      }
+    }
+  }
 }
