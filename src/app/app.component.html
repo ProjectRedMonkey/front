@@ -1,1 +1,8 @@
-<app-home></app-home>
+<mat-toolbar class="extend-toolbar">
+  <a [routerLink]="['/home']">Accueil</a>
+  <a [routerLink]="['/books']">Liste</a>
+</mat-toolbar>
+
+<section class="container">
+  <router-outlet></router-outlet>
+</section>
