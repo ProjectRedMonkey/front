@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 @Component({
@@ -21,7 +21,6 @@ export class FormComponent implements OnInit {
   ngOnInit(): void {
   }
 
-
   @Output('cancel') get cancel$(): EventEmitter<any> {
     return this._cancel$;
   }
@@ -33,4 +32,5 @@ export class FormComponent implements OnInit {
   save(value:any) {
     console.log(value);
   }
+
 }

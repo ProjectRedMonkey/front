@@ -9,7 +9,7 @@ import {Book} from "./types/book.type";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  private _bookDialog:MatDialogRef<DialogComponent, Book> | undefined;
+  private _bookDialog:MatDialogRef<DialogComponent> | undefined;
   private _dialogStatus:string;
 
   constructor(private _dialog: MatDialog) {
@@ -18,10 +18,7 @@ export class AppComponent {
 
   showDialog() {
     this._dialogStatus = 'active';
-    this._bookDialog = this._dialog.open(DialogComponent, {
-      width: '500px',
-      disableClose: true
-    });
+    this._bookDialog = this._dialog.open(DialogComponent);
     this._bookDialog.afterClosed().subscribe({complete: () => this._dialogStatus = 'inactive'});
   }
 
