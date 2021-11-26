@@ -22,7 +22,7 @@ export const BOOKS = [
         title: 'ainsi parlait zarathoustra',
         author: 'Friedrich Nietzsche',
         categorie: 'Philosophie',
-        date: '1883',
+        date: '06/06/1972',
         extract: 	
         	'«Ne va pas auprès des hommes, reste dans la forêt ! Va plutôt encore auprès des bêtes ! Pourquoi ne veux-tu pas être comme moi, — ours parmi les ours, oiseau parmi les oiseaux ? » « Et que fait le saint dans les bois ? » demanda Zarathoustra. Le saint répondit : « Je fais des chants et je les chante, et quand je fais des chants, je ris, je pleure et je murmure : c’est ainsi que je loue Dieu. Avec des chants, des pleurs, des rires et des murmures, je rends grâce à Dieu qui est mon Dieu. Cependant quel présent nous apportes-tu ? » Lorsque Zarathoustra eut entendu ces paroles, il salua le saint et lui dit : « Qu’aurais-je à vous donner ? Mais laissez-moi partir en hâte, afin que je ne vous prenne rien ! » — Et c’est ainsi qu’ils se séparèrent l’un de l’autre, le vieillard et l’homme, riant comme rient deux petits garçons. Mais quand Zarathoustra fut seul, il parla ainsi à son cœur : « Serait-ce possible ! Ce vieux saint dans sa forêt n’a pas encore entendu dire que Dieu est mort ! »',
     }
