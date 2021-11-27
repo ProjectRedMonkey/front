@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {MatDialogRef} from "@angular/material/dialog";
+import {Book} from "../../types/book.type";
 
 @Component({
   selector: 'app-dialog',
@@ -18,8 +19,8 @@ export class DialogComponent implements OnInit {
     this._dialogRef.close();
   }
 
-  onSave(): void {
-    this._dialogRef.close();
+  onSave(book:Book): void {
+    this._dialogRef.close(book);
   }
 
 }

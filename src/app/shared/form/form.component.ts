@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {Book} from "../../types/book.type";
 
 @Component({
   selector: 'app-form',
@@ -8,13 +9,18 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 })
 export class FormComponent implements OnInit {
   private readonly _cancel$: EventEmitter<void>;
+  private readonly _save$: EventEmitter<Book>;
   form:FormGroup;
 
   constructor() {
     this._cancel$ = new EventEmitter<void>();
+    this._save$ = new EventEmitter<Book>();
     this.form = new FormGroup({
       title: new FormControl('',Validators.required),
-      author: new FormControl('',Validators.required)
+      author: new FormControl('',Validators.required),
+      category: new FormControl('',Validators.required),
+      date: new FormControl('',Validators.required),
+      extract: new FormControl('',Validators.required),
     })
   }
 
@@ -25,12 +31,16 @@ export class FormComponent implements OnInit {
     return this._cancel$;
   }
 
+  @Output('addBook') get save$(): EventEmitter<Book> {
+    return this._save$;
+  }
+
   cancel(): void {
     this._cancel$.emit();
   }
 
-  save(value:any) {
-    console.log(value);
+  save(form:Book) {
+    this._save$.emit(form);
   }
 
 }

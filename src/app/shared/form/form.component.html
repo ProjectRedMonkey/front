@@ -2,13 +2,24 @@
 
 <mat-dialog-content>
   <form [formGroup]="form">
-    <input name="title" placeholder="Titre" formControlName="title"><br>
+    <input name="title" placeholder="Titre" [formControlName]="'title'"><br>
     <div *ngIf="form.get('title')?.dirty && form.get('title')?.hasError('required')">
       <span class="invalid-feedback">Ce champ est <strong>obligatoire</strong></span>
     </div>
-
-    <input name="author" placeholder="Auteur" formControlName="author">
+    <input name="author" placeholder="Auteur" [formControlName]="'author'"><br>
     <div *ngIf="form.get('author')?.dirty && form.get('author')?.hasError('required')">
+      <span class="invalid-feedback">Ce champ est <strong>obligatoire</strong></span>
+    </div>
+    <input name="category" placeholder="category" [formControlName]="'category'"><br>
+    <div *ngIf="form.get('category')?.dirty && form.get('category')?.hasError('required')">
+      <span class="invalid-feedback">Ce champ est <strong>obligatoire</strong></span>
+    </div>
+    <input type="date" name="date" placeholder="date" [formControlName]="'date'"><br>
+    <div *ngIf="form.get('date')?.dirty && form.get('date')?.hasError('required')">
+      <span class="invalid-feedback">Ce champ est <strong>obligatoire</strong></span>
+    </div>
+    <input name="extract" placeholder="extract" [formControlName]="'extract'"><br>
+    <div *ngIf="form.get('extract')?.dirty && form.get('extract')?.hasError('required')">
       <span class="invalid-feedback">Ce champ est <strong>obligatoire</strong></span>
     </div>
   </form>
@@ -17,5 +28,5 @@
 
 <mat-dialog-actions align="end">
   <button mat-button type="button" (click)="cancel()">Cancel</button>
-  <button mat-button color="primary" type="submit" (click)="save(form.value)">Save</button>
+  <button mat-button color="primary" type="submit" (click)="save(form.value)" [disabled]="form.invalid">Save</button>
 </mat-dialog-actions>
