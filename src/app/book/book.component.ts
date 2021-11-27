@@ -1,6 +1,6 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Book} from "../types/book.type";
-import {BOOKS} from "../static/books";
+import {HttpClient} from "@angular/common/http";
 
 @Component({
   selector: 'app-book',
@@ -8,14 +8,24 @@ import {BOOKS} from "../static/books";
   styleUrls: ['./book.component.css']
 })
 export class BookComponent implements OnInit {
-  private _book:any;
+  private _book:Book;
+  private readonly _delete$: EventEmitter<string>;
 
-  constructor() {
-    this._book = BOOKS[0];
+  constructor(private _http: HttpClient) {
+    this._book = {} as Book;
+    this._delete$ = new EventEmitter<string>();
   }
 
   ngOnInit(): void {
 
+  }
+
+  @Output('delete') get delete$(): EventEmitter<string> {
+    return this._delete$;
+  }
+
+  delete(id:string) {
+    this._delete$.emit(id);
   }
 
   get book(): any {

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {BOOKS} from "../static/books";
 import {ActivatedRoute} from "@angular/router";
+import {Book} from "../types/book.type";
+import {filter} from "rxjs";
+import {HttpClient} from "@angular/common/http";
 
 @Component({
   selector: 'app-book-view',
@@ -11,7 +13,7 @@ export class BookViewComponent implements OnInit {
   private _book:any;
   id:string;
 
-  constructor(private _route: ActivatedRoute) {
+  constructor(private _http:HttpClient, private _route: ActivatedRoute) {
     this.id = "0";
   }
 
@@ -19,7 +21,11 @@ export class BookViewComponent implements OnInit {
     this._route.params.subscribe(params => {
       this.id = params['id'];
     });
-    this._book = BOOKS.find(element => element.id == this.id);
+    this._http.get<Book>("http://localhost:3000/books/"+this.id)
+      .pipe(
+        filter((book: Book) => !!book)
+      )
+      .subscribe({ next: (book: Book) => this._book = book});
   }
 
   get book(): any {

@@ -1,5 +1,5 @@
 <section>
   <ul>
-  <app-book [book]="b" *ngFor="let b of books"></app-book>
+  <app-book [book]="b" *ngFor="let b of books" (delete)="delete($event)"></app-book>
   </ul>
 </section>

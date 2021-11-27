@@ -22,12 +22,14 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatInputModule} from "@angular/material/input";
 import {MatFormFieldModule} from "@angular/material/form-field";
+import { AdminComponent } from './admin/admin.component';
 
 const appRoutes: Routes= [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path : 'home', component: HomeComponent },
   { path : 'books', component: BooksComponent },
   { path : 'books/:id', component: BookViewComponent },
+  { path : 'admin', component: AdminComponent },
   { path: '**', component: PageNotFoundComponent }
 ];
 
@@ -40,7 +42,8 @@ const appRoutes: Routes= [
     PageNotFoundComponent,
     BookViewComponent,
     DialogComponent,
-    FormComponent
+    FormComponent,
+    AdminComponent
   ],
   imports: [
     BrowserModule,
@@ -56,6 +59,8 @@ const appRoutes: Routes= [
     MatDialogModule,
     MatInputModule,
     MatFormFieldModule,
+    MatIconModule,
+    MatButtonModule,
     FormsModule,
     RouterModule.forRoot(appRoutes)
   ],
