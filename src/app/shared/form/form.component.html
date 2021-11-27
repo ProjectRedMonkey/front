@@ -5,45 +5,50 @@
 
     <mat-form-field class="full-width">
       <input matInput name="title" placeholder="Titre" [formControlName]="'title'"><br>
+      <div *ngIf="form.get('title')?.dirty && form.get('title')?.hasError('required')">
+        <mat-error>Veuillez préciser le <strong>titre</strong></mat-error>
+      </div>
     </mat-form-field>
-    <div *ngIf="form.get('title')?.dirty && form.get('title')?.hasError('required')">
-      <mat-error>Veuillez préciser le <strong>titre</strong></mat-error>
-    </div>
+
 
     <mat-form-field class="full-width">
       <input matInput name="author" placeholder="Auteur" [formControlName]="'author'"><br>
+      <div *ngIf="form.get('author')?.dirty && form.get('author')?.hasError('required')">
+        <mat-error>Veuillez préciser l' <strong>auteur</strong></mat-error>
+      </div>
     </mat-form-field>
-    <div *ngIf="form.get('author')?.dirty && form.get('author')?.hasError('required')">
-      <mat-error>Veuillez préciser l' <strong>auteur</strong></mat-error>
-    </div>
+
 
     <mat-form-field class="full-width">
     <input matInput name="category" placeholder="Catégorie" [formControlName]="'category'"><br>
+      <div *ngIf="form.get('category')?.dirty && form.get('category')?.hasError('required')">
+        <mat-error>Veuillez préciser la <strong>catégorie</strong></mat-error>
+      </div>
     </mat-form-field>
-    <div *ngIf="form.get('category')?.dirty && form.get('category')?.hasError('required')">
-      <mat-error>Veuillez préciser la <strong>catégorie</strong></mat-error>
-    </div>
+
 
     <mat-form-field appearance="fill">
       <mat-label>Date de sortie</mat-label>
       <input matInput [formControlName]="'date'" [matDatepicker]="picker">
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
+      <div *ngIf="form.get('date')?.dirty && form.get('date')?.hasError('required')">
+        <mat-error>Veuillez préciser la <strong>date de sortie</strong></mat-error>
+      </div>
     </mat-form-field>
-    <div *ngIf="form.get('date')?.dirty && form.get('date')?.hasError('required')">
-      <mat-error>Veuillez préciser la <strong>date de sortie</strong></mat-error>
-    </div>
+
 
     <mat-form-field class="full-width">
      <input matInput type="text" name="image" placeholder="Lien de l'image" [formControlName]="'image'"><br>
     </mat-form-field>
 
-      <mat-form-field class="full-width">
-        <textarea matInput name="extract" placeholder="extract" [formControlName]="'extract'"></textarea>
-      </mat-form-field>
-    <div *ngIf="form.get('extract')?.dirty && form.get('extract')?.hasError('required')">
-      <mat-error>Merci de donner un <strong>extrait</strong> du livre</mat-error>
-    </div>
+    <mat-form-field class="full-width">
+      <textarea matInput name="extract" placeholder="extract" [formControlName]="'extract'"></textarea>
+      <div *ngIf="form.get('extract')?.dirty && form.get('extract')?.hasError('required')">
+        <mat-error>Merci de donner un <strong>extrait</strong> du livre</mat-error>
+      </div>
+    </mat-form-field>
+
 
   </form>
 </mat-dialog-content>
