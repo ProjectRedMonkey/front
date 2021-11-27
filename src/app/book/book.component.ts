@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Book} from "../types/book.type";
 import {HttpClient} from "@angular/common/http";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-book',
@@ -11,7 +12,7 @@ export class BookComponent implements OnInit {
   private _book:Book;
   private readonly _delete$: EventEmitter<string>;
 
-  constructor(private _http: HttpClient) {
+  constructor(private _http: HttpClient, private _router:Router) {
     this._book = {} as Book;
     this._delete$ = new EventEmitter<string>();
   }
@@ -35,5 +36,9 @@ export class BookComponent implements OnInit {
   @Input()
   set book(value: any) {
     this._book = value;
+  }
+
+  navigate(id:string) {
+    this._router.navigate(["/books/"+id]);
   }
 }

@@ -2,26 +2,49 @@
 
 <mat-dialog-content>
   <form [formGroup]="form">
-    <input name="title" placeholder="Titre" [formControlName]="'title'"><br>
+
+    <mat-form-field class="full-width">
+      <input matInput name="title" placeholder="Titre" [formControlName]="'title'"><br>
+    </mat-form-field>
     <div *ngIf="form.get('title')?.dirty && form.get('title')?.hasError('required')">
-      <span class="invalid-feedback">Ce champ est <strong>obligatoire</strong></span>
+      <mat-error>Veuillez préciser le <strong>titre</strong></mat-error>
     </div>
-    <input name="author" placeholder="Auteur" [formControlName]="'author'"><br>
+
+    <mat-form-field class="full-width">
+      <input matInput name="author" placeholder="Auteur" [formControlName]="'author'"><br>
+    </mat-form-field>
     <div *ngIf="form.get('author')?.dirty && form.get('author')?.hasError('required')">
-      <span class="invalid-feedback">Ce champ est <strong>obligatoire</strong></span>
+      <mat-error>Veuillez préciser l' <strong>auteur</strong></mat-error>
     </div>
-    <input name="category" placeholder="category" [formControlName]="'category'"><br>
+
+    <mat-form-field class="full-width">
+    <input matInput name="category" placeholder="Catégorie" [formControlName]="'category'"><br>
+    </mat-form-field>
     <div *ngIf="form.get('category')?.dirty && form.get('category')?.hasError('required')">
-      <span class="invalid-feedback">Ce champ est <strong>obligatoire</strong></span>
+      <mat-error>Veuillez préciser la <strong>catégorie</strong></mat-error>
     </div>
-    <input type="date" name="date" placeholder="date" [formControlName]="'date'"><br>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Date de sortie</mat-label>
+      <input matInput [formControlName]="'date'" [matDatepicker]="picker">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
     <div *ngIf="form.get('date')?.dirty && form.get('date')?.hasError('required')">
-      <span class="invalid-feedback">Ce champ est <strong>obligatoire</strong></span>
+      <mat-error>Veuillez préciser la <strong>date de sortie</strong></mat-error>
     </div>
-    <input name="extract" placeholder="extract" [formControlName]="'extract'"><br>
+
+    <mat-form-field class="full-width">
+     <input matInput type="text" name="image" placeholder="Lien de l'image" [formControlName]="'image'"><br>
+    </mat-form-field>
+
+      <mat-form-field class="full-width">
+        <textarea matInput name="extract" placeholder="extract" [formControlName]="'extract'"></textarea>
+      </mat-form-field>
     <div *ngIf="form.get('extract')?.dirty && form.get('extract')?.hasError('required')">
-      <span class="invalid-feedback">Ce champ est <strong>obligatoire</strong></span>
+      <mat-error>Merci de donner un <strong>extrait</strong> du livre</mat-error>
     </div>
+
   </form>
 </mat-dialog-content>
 

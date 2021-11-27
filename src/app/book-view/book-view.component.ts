@@ -3,6 +3,8 @@ import {ActivatedRoute} from "@angular/router";
 import {Book} from "../types/book.type";
 import {filter} from "rxjs";
 import {HttpClient} from "@angular/common/http";
+import {DialogPosition, MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {AddCommentComponent} from "../shared/add-comment/add-comment.component";
 
 @Component({
   selector: 'app-book-view',
@@ -10,13 +12,18 @@ import {HttpClient} from "@angular/common/http";
   styleUrls: ['./book-view.component.css']
 })
 export class BookViewComponent implements OnInit {
-  private _book:any;
+  private _book:Book;
+  private _dialogRef:MatDialogRef<AddCommentComponent> | undefined;
   id:string;
+  highlighted:boolean;
 
-  constructor(private _http:HttpClient, private _route: ActivatedRoute) {
+  constructor(private _http:HttpClient, private _route: ActivatedRoute, private _dialog: MatDialog) {
     this.id = "0";
+    this._book = {} as Book;
+    this.highlighted = false;
   }
 
+  //Récupère le livre à afficher
   ngOnInit(): void {
     this._route.params.subscribe(params => {
       this.id = params['id'];
@@ -45,5 +52,26 @@ export class BookViewComponent implements OnInit {
         console.log("Aucune donnée");
       }
     }
+  }
+
+  showDialog(event: MouseEvent) {
+    this._dialogRef?.close();
+    this.highlighted = true;
+    const dialogPosition: DialogPosition = {
+      top: event.y + 'px',
+      left: event.x + 'px'
+    };
+
+    this._dialogRef = this._dialog.open(AddCommentComponent, {
+      width: '250px',
+      position: dialogPosition
+    });
+
+    this._dialogRef.afterClosed().subscribe(result => {
+    });
+  }
+
+  closeDialog() {
+    this.highlighted = false;
   }
 }
