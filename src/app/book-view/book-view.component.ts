@@ -46,7 +46,7 @@ export class BookViewComponent implements OnInit {
         filter((comments: Comment[]) => !!comments),
         defaultIfEmpty([])
       )
-      .subscribe({ next: (comments: Comment[]) => this._comments = comments.filter(obj => obj.id === this.id)});
+      .subscribe({ next: (comments: Comment[]) => this._comments = comments.filter(obj => obj.idBook === this.id)});
   }
 
   get book(): any {
@@ -75,8 +75,8 @@ export class BookViewComponent implements OnInit {
             data:this.id
           });
 
-          this._dialogRef.afterClosed().subscribe(result => {
-            this.ngOnInit();
+          this._dialogRef.afterClosed().subscribe(comment => {
+            this._comments.push(comment);
           });
         }
       }

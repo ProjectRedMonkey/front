@@ -65,8 +65,19 @@ export class BookComponent implements OnInit {
   }
 
   private _edit(book: Book | undefined):Observable<Book> {
-    if(!!book)
-    this._book = book;
+    if(!!book) {
+      this.updateBook(book);
+    }
+    console.log(book);
     return this._http.put<Book>("http://localhost:3000/books/"+this._book.id, book,  { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) });
+  }
+
+  //Pour mattre à jour le modele du component
+  private updateBook(b:Book) {
+    this._book.title = b.title;
+    this._book.author = b.author;
+    this._book.category = b.category;
+    this._book.photo = b.photo;
+    this._book.extract = b.extract;
   }
 }

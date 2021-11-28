@@ -42,11 +42,11 @@ export class AddCommentComponent implements OnInit {
   save(comment: Comment) {
     this.setUp(comment);
     this._http.post("http://localhost:3000/comments", comment).subscribe();
-    this._dialogRef.close();
+    this._dialogRef.close(comment);
   }
 
   private setUp(comment: Comment) {
-    comment.id = this.data;
+    comment.idBook = this.data;
     var today = new Date();
     comment.date = Number(today.getDate());
     comment.start = this.start;
