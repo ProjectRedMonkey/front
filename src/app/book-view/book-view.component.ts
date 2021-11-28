@@ -43,32 +43,27 @@ export class BookViewComponent implements OnInit {
     this._book = value;
   }
 
-  click() {
-    var text = window.getSelection();
-    if (text != null) {
-      if (!text.isCollapsed) {
-        console.log(text.toString());
-      } else {
-        console.log("Aucune donnée");
-      }
-    }
-  }
-
   showDialog(event: MouseEvent) {
-    this._dialogRef?.close();
-    this.highlighted = true;
-    const dialogPosition: DialogPosition = {
-      top: event.y + 'px',
-      left: event.x + 'px'
-    };
+    var select = window.getSelection();
+    if (!!select && !!select.anchorNode && !!select.anchorNode.parentNode && !select.isCollapsed) {
+        if(select.anchorNode.parentNode.nodeName == 'LABEL') {
 
-    this._dialogRef = this._dialog.open(AddCommentComponent, {
-      width: '400px',
-      position: dialogPosition
-    });
+          this._dialogRef?.close();
+          this.highlighted = true;
+          const dialogPosition: DialogPosition = {
+            top: event.y + 'px',
+            left: event.x + 'px'
+          };
 
-    this._dialogRef.afterClosed().subscribe(result => {
-    });
+          this._dialogRef = this._dialog.open(AddCommentComponent, {
+            width: '400px',
+            position: dialogPosition
+          });
+
+          this._dialogRef.afterClosed().subscribe(result => {
+          });
+        }
+      }
   }
 
   closeDialog() {

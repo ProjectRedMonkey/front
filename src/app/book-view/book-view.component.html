@@ -1,10 +1,12 @@
-<div  (mousedown)="closeDialog()">
-  <h1>{{book.title}}</h1>
-  <h2>{{book.author}}</h2>
+<body (mousedown)="closeDialog()" (mouseup)="showDialog($event)">
+  <div >
+    <h1>{{book.title}}</h1>
+    <h2>{{book.author}}</h2>
 
-  <body>
-    <div id="extract" (mouseup)="showDialog($event)">
-      <label>{{book.extract}}</label>
-    </div>
-  </body>
-</div>
+    <body>
+      <div id="extract">
+        <label>{{book.extract}}</label>
+      </div>
+    </body>
+  </div>
+</body>

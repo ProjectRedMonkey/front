@@ -1,8 +1,8 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {Book} from "../../types/book.type";
 import {MatDialogRef} from "@angular/material/dialog";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {HttpClient} from "@angular/common/http";
+import {Comment} from "../../types/comment.type";
 
 @Component({
   selector: 'app-add-comment',
@@ -11,12 +11,24 @@ import {HttpClient} from "@angular/common/http";
 })
 export class AddCommentComponent implements OnInit {
   form:FormGroup;
+  start:number;
+  end:number;
 
   constructor(private _dialogRef: MatDialogRef<AddCommentComponent>, private _http: HttpClient) {
     this.form = new FormGroup({
       author: new FormControl('',Validators.required),
       text: new FormControl('',Validators.required),
     })
+    this.start = 0;
+    this.end = 0;
+
+    var select = window.getSelection();
+    if (select != null) {
+      if (!select.isCollapsed) {
+        this.start = select.getRangeAt(0).startOffset;
+        this.end = select.getRangeAt(0).endOffset;
+      }
+    }
   }
 
   ngOnInit(): void {
@@ -28,7 +40,16 @@ export class AddCommentComponent implements OnInit {
   }
 
   save(comment: Comment) {
-    this._http.post("http://localhost:3000/comments", comment);
+    this.setUp(comment);
+    console.log(comment);
+    this._http.post("http://localhost:3000/comments", comment).subscribe();
     this._dialogRef.close();
+  }
+
+  private setUp(comment: Comment) {
+    var today = new Date();
+    comment.date = Number(today.getDate());
+    comment.start = this.start;
+    comment.end = this.end;
   }
 }
