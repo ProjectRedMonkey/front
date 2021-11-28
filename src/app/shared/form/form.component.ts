@@ -11,21 +11,24 @@ export class FormComponent implements OnInit {
   private readonly _cancel$: EventEmitter<void>;
   private readonly _save$: EventEmitter<Book>;
   form:FormGroup;
+  private _model:Book;
 
   constructor() {
     this._cancel$ = new EventEmitter<void>();
     this._save$ = new EventEmitter<Book>();
+    this._model = {} as Book;
     this.form = new FormGroup({
       title: new FormControl('',Validators.required),
       author: new FormControl('',Validators.required),
       category: new FormControl('',Validators.required),
       date: new FormControl(''),
       extract: new FormControl('',Validators.required),
-      photo: new FormControl('', Validators.pattern(/^\w+\.jpg$/)),
+      photo: new FormControl('', Validators.pattern(/\S+\.jpg$/)),
     })
   }
 
   ngOnInit(): void {
+    this.form.patchValue(this._model);
   }
 
   @Output('cancel') get cancel$(): EventEmitter<any> {
@@ -42,6 +45,15 @@ export class FormComponent implements OnInit {
 
   save(form:Book) {
     this._save$.emit(form);
+  }
+
+  get model(): Book {
+    return this._model;
+  }
+
+  @Input()
+  set model(value: Book) {
+    this._model = value;
   }
 
 }

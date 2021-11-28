@@ -4,6 +4,6 @@ export type Book = {
   title: string;
   author: string;
   category:string;
-  date:number;
+  date?:number;
   extract: string;
 };

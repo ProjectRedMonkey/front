@@ -2,7 +2,6 @@
 
 <mat-dialog-content>
   <form [formGroup]="form">
-
     <mat-form-field class="full-width">
       <input matInput name="title" placeholder="Titre" [formControlName]="'title'">
       <div *ngIf="form.get('title')?.dirty && form.get('title')?.hasError('required')">
@@ -32,9 +31,6 @@
       <input matInput [formControlName]="'date'" [matDatepicker]="picker">
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
-      <div *ngIf="form.get('date')?.dirty && form.get('date')?.hasError('required')">
-        <mat-error>Veuillez préciser la <strong>date de sortie</strong></mat-error>
-      </div>
     </mat-form-field>
 
 

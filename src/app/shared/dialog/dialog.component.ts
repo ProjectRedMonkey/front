@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import {MatDialogRef} from "@angular/material/dialog";
+import {Component, Inject, OnInit, Optional} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Book} from "../../types/book.type";
 
 @Component({
@@ -9,7 +9,7 @@ import {Book} from "../../types/book.type";
 })
 export class DialogComponent implements OnInit {
 
-  constructor(private _dialogRef: MatDialogRef<DialogComponent>) {
+  constructor(private _dialogRef: MatDialogRef<DialogComponent>, @Optional() @Inject(MAT_DIALOG_DATA) private _book: Book) {
   }
 
   ngOnInit(): void {
@@ -21,6 +21,10 @@ export class DialogComponent implements OnInit {
 
   onSave(book:Book): void {
     this._dialogRef.close(book);
+  }
+
+  get book(): Book{
+    return this._book;
   }
 
 }

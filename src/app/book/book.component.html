@@ -23,7 +23,7 @@
       <a mat-button title="Nouvel Extrait">
         <mat-icon>add</mat-icon>
       </a>
-      <a mat-button title="Editer">
+      <a mat-button title="Editer" (click)="modify()">
         <mat-icon>edit</mat-icon>
       </a>
       <a mat-button title="Supprimer" (click)="delete(book.id)">

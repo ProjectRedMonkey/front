@@ -1,7 +1,10 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Book} from "../types/book.type";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Router} from "@angular/router";
+import {DialogComponent} from "../shared/dialog/dialog.component";
+import {MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {filter, map, mergeMap, Observable} from "rxjs";
 
 @Component({
   selector: 'app-book',
@@ -11,8 +14,9 @@ import {Router} from "@angular/router";
 export class BookComponent implements OnInit {
   private _book:Book;
   private readonly _delete$: EventEmitter<string>;
+  private _bookDialog: MatDialogRef<DialogComponent> | undefined;
 
-  constructor(private _http: HttpClient, private _router:Router) {
+  constructor(private _http: HttpClient, private _router:Router, private _dialog: MatDialog) {
     this._book = {} as Book;
     this._delete$ = new EventEmitter<string>();
   }
@@ -40,5 +44,29 @@ export class BookComponent implements OnInit {
 
   navigate(id:string) {
     this._router.navigate(["/books/"+id]);
+  }
+
+  modify() {
+    this._bookDialog = this._dialog.open(DialogComponent,{
+      data:this._book
+    });
+    this._bookDialog.afterClosed().pipe(
+      filter((book: Book | undefined) => !!book),
+      map((book: Book | undefined) => {
+        //TODO: à enlever quand la date fonctionnera
+        delete book?.date;
+        return book;
+      }),
+      mergeMap((book: Book | undefined) => this._edit(book))).subscribe({
+      error: () => this._router.navigate(['/books']),
+      complete: () => this._router.navigate(['/books'])
+    });
+
+  }
+
+  private _edit(book: Book | undefined):Observable<Book> {
+    if(!!book)
+    this._book = book;
+    return this._http.put<Book>("http://localhost:3000/books/"+this._book.id, book,  { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) });
   }
 }
