@@ -1,5 +1,5 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {MatDialogRef} from "@angular/material/dialog";
+import {Component, EventEmitter, Inject, OnInit, Output} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {HttpClient} from "@angular/common/http";
 import {Comment} from "../../types/comment.type";
@@ -14,7 +14,7 @@ export class AddCommentComponent implements OnInit {
   start:number;
   end:number;
 
-  constructor(private _dialogRef: MatDialogRef<AddCommentComponent>, private _http: HttpClient) {
+  constructor(private _dialogRef: MatDialogRef<AddCommentComponent>, private _http: HttpClient, @Inject(MAT_DIALOG_DATA) public data: string) {
     this.form = new FormGroup({
       author: new FormControl('',Validators.required),
       text: new FormControl('',Validators.required),
@@ -41,12 +41,12 @@ export class AddCommentComponent implements OnInit {
 
   save(comment: Comment) {
     this.setUp(comment);
-    console.log(comment);
     this._http.post("http://localhost:3000/comments", comment).subscribe();
     this._dialogRef.close();
   }
 
   private setUp(comment: Comment) {
+    comment.id = this.data;
     var today = new Date();
     comment.date = Number(today.getDate());
     comment.start = this.start;
