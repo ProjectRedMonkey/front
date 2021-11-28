@@ -72,7 +72,7 @@ export class BookComponent implements OnInit {
     return this._http.put<Book>("http://localhost:3000/books/"+this._book.id, book,  { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) });
   }
 
-  //Pour mattre à jour le modele du component
+  //Pour mettre à jour le modele du component
   private updateBook(b:Book) {
     this._book.title = b.title;
     this._book.author = b.author;

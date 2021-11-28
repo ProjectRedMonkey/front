@@ -76,7 +76,7 @@ export class BookViewComponent implements OnInit {
           });
 
           this._dialogRef.afterClosed().subscribe(comment => {
-            this._comments.push(comment);
+            if(!!comment) this._comments.push(comment);
           });
         }
       }

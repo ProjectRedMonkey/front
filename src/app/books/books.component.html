@@ -1,3 +1,4 @@
 <section>
-  <app-book [book]="b" *ngFor="let b of books" (delete)="delete($event)"></app-book>
+  <input matInput type="search"  [(ngModel)]="searchword" (input)="searchThis()">
+  <app-book [book]="b" *ngFor="let b of content" (delete)="delete($event)"></app-book>
 </section>

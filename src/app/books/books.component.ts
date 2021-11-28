@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {Book} from "../types/book.type";
 import {HttpClient} from "@angular/common/http";
 import {defaultIfEmpty, filter} from "rxjs";
@@ -10,9 +10,14 @@ import {defaultIfEmpty, filter} from "rxjs";
 })
 export class BooksComponent implements OnInit {
   private _books: Book[];
+  @Output() searchcriteria = new EventEmitter<String>();
+  searchword:string;
+  content:Book[];
 
   constructor(private _http: HttpClient) {
-    this._books = []
+    this._books = [];
+    this.content = [];
+    this.searchword = "";
   }
 
   ngOnInit(): void {
@@ -21,7 +26,10 @@ export class BooksComponent implements OnInit {
         filter((books: Book[]) => !!books),
         defaultIfEmpty([])
       )
-      .subscribe({ next: (books: Book[]) => this._books = books});
+      .subscribe({ next: (books: Book[]) => {
+        this._books = books
+          this.content = books
+        }});
   }
 
   delete(id:string) {
@@ -31,5 +39,16 @@ export class BooksComponent implements OnInit {
 
   get books(): Book[] {
     return this._books;
+  }
+
+  searchThis() {
+    let data = this.searchword;
+    this.content = this._books;
+    if (data) {
+      this.content = this.content.filter(function (ele, i, array) {
+        let arrayelement = ele.title.toLowerCase()
+        return arrayelement.includes(data.toLowerCase())
+      })
+    }
   }
 }
