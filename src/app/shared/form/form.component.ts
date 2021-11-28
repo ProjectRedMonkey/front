@@ -10,14 +10,14 @@ import {Book} from "../../types/book.type";
 export class FormComponent implements OnInit {
   private readonly _cancel$: EventEmitter<void>;
   private readonly _save$: EventEmitter<Book>;
-  form:FormGroup;
+  private _form:FormGroup;
   private _model:Book;
 
   constructor() {
     this._cancel$ = new EventEmitter<void>();
     this._save$ = new EventEmitter<Book>();
     this._model = {} as Book;
-    this.form = new FormGroup({
+    this._form = new FormGroup({
       title: new FormControl('',Validators.required),
       author: new FormControl('',Validators.required),
       category: new FormControl('',Validators.required),
@@ -28,7 +28,7 @@ export class FormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.form.patchValue(this._model);
+    this._form.patchValue(this._model);
   }
 
   @Output('cancel') get cancel$(): EventEmitter<any> {
@@ -56,4 +56,7 @@ export class FormComponent implements OnInit {
     this._model = value;
   }
 
+  get form(): FormGroup {
+    return this._form;
+  }
 }

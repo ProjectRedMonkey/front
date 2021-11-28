@@ -44,11 +44,18 @@ export class BooksComponent implements OnInit {
   searchThis() {
     let data = this.searchword;
     this.content = this._books;
+    let authors = this._books;
     if (data) {
-      this.content = this.content.filter(function (ele, i, array) {
+      this.content = this._books.filter(function (ele, i, array) {
         let arrayelement = ele.title.toLowerCase()
         return arrayelement.includes(data.toLowerCase())
       })
+      authors = this._books.filter(function (ele, i, array) {
+        let arrayelement = ele.author.toLowerCase()
+        return arrayelement.includes(data.toLowerCase())
+      })
+      authors.forEach(element => this.content.indexOf(element) === -1 ? this.content.push(element) : !!authors);
+
     }
   }
 }

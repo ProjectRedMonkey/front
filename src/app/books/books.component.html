@@ -1,4 +1,12 @@
+<div class="wrap">
+  <div class="search">
+    <input type="text" class="searchTerm" placeholder="What are you looking for?" [(ngModel)]="searchword" (input)="searchThis()" >
+    <button type="submit" class="searchButton">
+      <mat-icon>search</mat-icon>
+    </button>
+  </div>
+</div>
+
 <section>
-  <input matInput type="search"  [(ngModel)]="searchword" (input)="searchThis()">
   <app-book [book]="b" *ngFor="let b of content" (delete)="delete($event)"></app-book>
 </section>
