@@ -10,8 +10,8 @@ import {defaultIfEmpty, filter} from "rxjs";
 })
 export class BooksComponent implements OnInit {
   private _books: Book[];
-  @Output() searchcriteria = new EventEmitter<String>();
   searchword:string;
+  //Affiche les livres filtrés par la recherche
   content:Book[];
 
   constructor(private _http: HttpClient) {
@@ -34,7 +34,8 @@ export class BooksComponent implements OnInit {
 
   delete(id:string) {
     this._http.delete("http://localhost:3000/books/"+id)
-      .subscribe({ next: () => this._books = this._books.filter((b: Book) => b.id !== id) });
+      .subscribe({ next: () => {this._books = this._books.filter((b: Book) => b.id !== id)
+          this.content = this._books} });
   }
 
   get books(): Book[] {

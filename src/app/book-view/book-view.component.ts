@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {Book} from "../types/book.type";
 import {defaultIfEmpty, filter} from "rxjs";
@@ -46,7 +46,9 @@ export class BookViewComponent implements OnInit {
         filter((comments: Comment[]) => !!comments),
         defaultIfEmpty([])
       )
-      .subscribe({ next: (comments: Comment[]) => this._comments = comments.filter(obj => obj.idBook === this.id)});
+      .subscribe({ next: (comments: Comment[]) => {
+          this._comments = comments.filter(obj => obj.idBook === this.id)
+          comments.forEach(ele => this.hightlightComments(ele.start, ele.end))}});
   }
 
   get book(): any {
@@ -88,5 +90,16 @@ export class BookViewComponent implements OnInit {
 
   get comments(): Comment[] {
     return this._comments;
+  }
+
+  private hightlightComments(start:number, end:number) {
+    //Surligne les passages commentés
+    let inputText = document.getElementById("extract");
+    let innerHTML = this._book.extract;
+    if (start >= 0) {
+      // @ts-ignore
+      inputText.innerHTML = innerHTML.substring(0, start) + "<span id='comment' class='highlight'>" + innerHTML.substring(start, end) + "</span>" + innerHTML.substring(end);
+    }
+    console.log(document.getElementById("comment"))
   }
 }

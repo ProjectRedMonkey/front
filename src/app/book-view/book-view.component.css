@@ -5,7 +5,7 @@ body {
   text-align: center;
 }
 
-div, h1, h2, p {
+div, h1, h2, p, label {
   margin: 0;
   padding: 0;
 }
@@ -42,4 +42,12 @@ h2:before {
 
 h2:after {
   content: ' —';
+}
+
+.highlight {
+  background-color: yellow;
+}
+
+.test {
+  background-color: yellow;
 }
