@@ -19,9 +19,9 @@ export class FormComponent implements OnInit {
       title: new FormControl('',Validators.required),
       author: new FormControl('',Validators.required),
       category: new FormControl('',Validators.required),
-      date: new FormControl('',Validators.required),
+      date: new FormControl(''),
       extract: new FormControl('',Validators.required),
-      image: new FormControl(''),
+      photo: new FormControl('', Validators.pattern(/^\w+\.jpg$/)),
     })
   }
 

@@ -1,9 +1,24 @@
 <mat-dialog-content>
-  <form>
-    <input type="text">
+  <form [formGroup]="form">
+
+    <mat-form-field class="full-width">
+      <input matInput name="author" placeholder="Pseudo" [formControlName]="'author'">
+      <div *ngIf="form.get('author')?.dirty && form.get('author')?.hasError('required')">
+        <mat-error>Veuillez entrer votre <strong>pseudo</strong></mat-error>
+      </div>
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+      <textarea matInput name="text" placeholder="Commentaire" [formControlName]="'text'"></textarea>
+      <div *ngIf="form.get('text')?.dirty && form.get('text')?.hasError('required')">
+        <mat-error>Veuillez entrer votre <strong>commentaire</strong></mat-error>
+      </div>
+    </mat-form-field>
+
   </form>
 </mat-dialog-content>
+
 <mat-dialog-actions>
   <button (click)="cancel()">Annuler</button>
-  <button type="submit">Ajouter</button>
+  <button type="submit" (click)="save(form.value)">Ajouter</button>
 </mat-dialog-actions>

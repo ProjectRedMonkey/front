@@ -63,7 +63,7 @@ export class BookViewComponent implements OnInit {
     };
 
     this._dialogRef = this._dialog.open(AddCommentComponent, {
-      width: '250px',
+      width: '400px',
       position: dialogPosition
     });
 

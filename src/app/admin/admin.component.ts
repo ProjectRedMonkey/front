@@ -41,6 +41,12 @@ export class AdminComponent implements OnInit {
   }
 
   private _add(book: Book | undefined): Observable<Book> {
+    if(!!book) {
+      book.date = 20;
+      if(book.photo == ""){
+        book.photo = "http://www.petites-curiosites.com/sites/default/files/images/petites-curiosites-com-faux-livre-steampunk-01.jpg";
+      }
+    }
     return this._http.post<Book>("http://localhost:3000/books", book,  { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) });
   }
 

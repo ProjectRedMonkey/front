@@ -4,7 +4,7 @@
   <form [formGroup]="form">
 
     <mat-form-field class="full-width">
-      <input matInput name="title" placeholder="Titre" [formControlName]="'title'"><br>
+      <input matInput name="title" placeholder="Titre" [formControlName]="'title'">
       <div *ngIf="form.get('title')?.dirty && form.get('title')?.hasError('required')">
         <mat-error>Veuillez préciser le <strong>titre</strong></mat-error>
       </div>
@@ -12,7 +12,7 @@
 
 
     <mat-form-field class="full-width">
-      <input matInput name="author" placeholder="Auteur" [formControlName]="'author'"><br>
+      <input matInput name="author" placeholder="Auteur" [formControlName]="'author'">
       <div *ngIf="form.get('author')?.dirty && form.get('author')?.hasError('required')">
         <mat-error>Veuillez préciser l' <strong>auteur</strong></mat-error>
       </div>
@@ -20,7 +20,7 @@
 
 
     <mat-form-field class="full-width">
-    <input matInput name="category" placeholder="Catégorie" [formControlName]="'category'"><br>
+    <input matInput name="category" placeholder="Catégorie" [formControlName]="'category'">
       <div *ngIf="form.get('category')?.dirty && form.get('category')?.hasError('required')">
         <mat-error>Veuillez préciser la <strong>catégorie</strong></mat-error>
       </div>
@@ -39,7 +39,10 @@
 
 
     <mat-form-field class="full-width">
-     <input matInput type="text" name="image" placeholder="Lien de l'image" [formControlName]="'image'"><br>
+     <input matInput type="text" name="photo" placeholder="Lien de l'image" [formControlName]="'photo'">
+      <div *ngIf="form.get('photo')?.dirty && form.get('photo')?.hasError('pattern')">
+        <mat-error>Merci de donner un lien vers une <strong>image</strong></mat-error>
+      </div>
     </mat-form-field>
 
     <mat-form-field class="full-width">
