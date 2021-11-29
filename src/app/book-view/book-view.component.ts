@@ -20,6 +20,7 @@ export class BookViewComponent implements OnInit {
   id:string;
   highlighted:boolean;
   printComment:boolean;
+  // @ts-ignore
   span:Element;
 
   constructor(private _http:HttpClient, private _route: ActivatedRoute, private _dialog: MatDialog) {
@@ -29,7 +30,6 @@ export class BookViewComponent implements OnInit {
     this.highlighted = false;
     this.printComment = false;
     this.commentToPrint = {} as Comment;
-    this.span = {} as Element;
   }
 
   //Récupère le livre à afficher
@@ -116,18 +116,27 @@ export class BookViewComponent implements OnInit {
 
   //Affiche le commentaire quand la souris passe dessus
   showComment(event: MouseEvent){
-    var x = event.clientX, y = event.clientY;
-    // @ts-ignore
-    this.span = document.elementFromPoint(x, y)
-    if(this.span != null) {
-      if (this.span.id == 'cm') {
-        this.span.setAttribute("style", 'background-color: red;')
-        this._comments.forEach(ele => {
-          // @ts-ignore
-          if (ele.start == this._book.extract.indexOf(this.span.textContent))
-            this.commentToPrint = ele
-        })
-        this.printComment = true;
+    let x = event.clientX, y = event.clientY;
+    let mouseSpan = document.elementFromPoint(x, y);
+    if(mouseSpan != null) {
+      if (this.span != undefined) {
+        if (this.span.id == "cm" && this.span.textContent != mouseSpan.textContent && mouseSpan.id == "cm")
+          this.span.setAttribute("style", 'background-color: yellow;')
+      }
+
+      if (mouseSpan.id == "cm") {
+        this.span = mouseSpan;
+        if (this.span != null) {
+          if (this.span.id == 'cm') {
+            this.span.setAttribute("style", 'background-color: red;')
+            this._comments.forEach(ele => {
+              // @ts-ignore
+              if (ele.start == this._book.extract.indexOf(this.span.textContent))
+                this.commentToPrint = ele
+            })
+            this.printComment = true;
+          }
+        }
       }
     }
   }

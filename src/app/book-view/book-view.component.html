@@ -9,6 +9,7 @@
   </div>
 
   <div id="printComment"  *ngIf="printComment">
+    <label>{{commentToPrint.author}}</label><br>
     <textarea  [value]="commentToPrint.text"></textarea>
     <button (click)="closeDialog()">Fermer</button>
   </div>
