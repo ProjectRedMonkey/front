@@ -18,12 +18,14 @@ export class BookViewComponent implements OnInit {
   private _comments:Comment[];
   id:string;
   highlighted:boolean;
+  printComment:boolean;
 
   constructor(private _http:HttpClient, private _route: ActivatedRoute, private _dialog: MatDialog) {
     this.id = "0";
     this._book = {} as Book;
     this._comments = [];
     this.highlighted = false;
+    this.printComment = false;
   }
 
   //Récupère le livre à afficher
@@ -48,7 +50,7 @@ export class BookViewComponent implements OnInit {
       )
       .subscribe({ next: (comments: Comment[]) => {
           this._comments = comments.filter(obj => obj.idBook === this.id)
-          comments.forEach(ele => this.hightlightComments(ele.start, ele.end))}});
+          this._comments.forEach(ele => this.hightlightComments(ele.start, ele.end))}});
   }
 
   get book(): any {
@@ -92,14 +94,25 @@ export class BookViewComponent implements OnInit {
     return this._comments;
   }
 
-  private hightlightComments(start:number, end:number) {
-    //Surligne les passages commentés
-    let inputText = document.getElementById("extract");
+  //Surligne les passages commentés
+  hightlightComments(start:number, end:number) {
+    let inputText = document.getElementById("comment");
+    // @ts-ignore
     let innerHTML = this._book.extract;
     if (start >= 0) {
       // @ts-ignore
-      inputText.innerHTML = innerHTML.substring(0, start) + "<span id='comment' class='highlight'>" + innerHTML.substring(start, end) + "</span>" + innerHTML.substring(end);
+      inputText.innerHTML = innerHTML.substring(0, start) + "<span style='background-color: yellow;'>" + innerHTML.substring(start, end) + "</span>" + innerHTML.substring(end);
     }
-    console.log(document.getElementById("comment"))
+  }
+
+  //Affiche le commentaire quand la souris passe dessus
+  showComment(event: MouseEvent){
+    var x = event.clientX, y = event.clientY;
+    // @ts-ignore
+    if(document.elementFromPoint(x, y).tagName == 'SPAN'){
+      this.printComment = true;
+    }else{
+      this.printComment = false;
+    }
   }
 }

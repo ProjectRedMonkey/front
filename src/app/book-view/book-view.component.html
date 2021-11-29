@@ -4,10 +4,11 @@
     <h2>{{book.author}}</h2>
 
     <div id="extract">
+      <label (mouseover)='showComment($event)' id="comment">{{book.extract}}</label>
     </div>
   </div>
 
   <div>
-    <textarea *ngFor="let c of comments" [value]="c.text"></textarea>
+    <textarea [value]="comments[0].text" *ngIf="printComment"></textarea>
   </div>
 </body>
