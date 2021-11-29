@@ -44,10 +44,9 @@ export class AdminComponent implements OnInit {
     if(!!book) {
       book.date = 20;
       if(book.photo == ""){
-        book.photo = "http://www.petites-curiosites.com/sites/default/files/images/petites-curiosites-com-faux-livre-steampunk-01.jpg";
+        book.photo = "https://islandpress.org/sites/default/files/default_book_cover_2015.jpg";
       }
     }
-    console.log(book);
     return this._http.post<Book>("http://localhost:3000/books", book,  { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) });
   }
 

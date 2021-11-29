@@ -68,7 +68,6 @@ export class BookComponent implements OnInit {
     if(!!book) {
       this.updateBook(book);
     }
-    console.log(book);
     return this._http.put<Book>("http://localhost:3000/books/"+this._book.id, book,  { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) });
   }
 
