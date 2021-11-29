@@ -1,11 +1,11 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+
 section {
   display: flex;
   flex-flow: row wrap;
   align-items: center;
   justify-content: center;
 }
-
-@import url(https://fonts.googleapis.com/css?family=Open+Sans);
 
 body{
   background: #f2f2f2;
@@ -42,4 +42,10 @@ body{
   border-radius: 0 5px 5px 0;
   cursor: pointer;
   font-size: 20px;
+}
+
+#addButton{
+  position: absolute;
+  bottom: 0;
+  right: 0;
 }

@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {Book} from "../types/book.type";
-import {defaultIfEmpty, filter} from "rxjs";
-import {HttpClient} from "@angular/common/http";
+import {defaultIfEmpty, filter, map, mergeMap, Observable} from "rxjs";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {DialogPosition, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {AddCommentComponent} from "../shared/add-comment/add-comment.component";
 import {Comment} from "../types/comment.type";
@@ -113,6 +113,28 @@ export class BookViewComponent implements OnInit {
       inputText.innerHTML = innerHTML.substring(0, index) + "<span id='cm' style='background-color: yellow;'>" + innerHTML.substring(index, index+text.length) + "</span>" + innerHTML.substring(index+text.length);
     }
   }
+
+  modify(comment: Comment) {
+    let bookDialog = this._dialog.open(AddCommentComponent, {
+      data:comment
+    });
+    bookDialog.afterClosed().pipe(
+      filter((comment: Comment | undefined) => !!comment),
+      mergeMap((comment: Comment | undefined) => this.edit(comment))).subscribe({
+      complete: () => this.commentToPrint = comment
+    });
+  }
+
+  delete(comment: Comment) {
+    this._http.delete("http://localhost:3000/comments/"+comment.id)
+      .subscribe({ next: () =>this._comments = this._comments.filter((c: Comment) => c.id !== comment.id)});
+  }
+
+  edit(comment: Comment | undefined):Observable<Comment>{
+    // @ts-ignore
+    return this._http.put<Comment>("http://localhost:3000/comments/"+comment.id, comment);
+  }
+
 
   //Affiche le commentaire quand la souris passe dessus
   showComment(event: MouseEvent){

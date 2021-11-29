@@ -1,3 +1,5 @@
+
+
 <div class="wrap">
   <div class="search">
     <input type="text" class="searchTerm" placeholder="Tapez un livre ou un auteur..." [(ngModel)]="searchword" (input)="searchThis()" >
@@ -10,3 +12,7 @@
 <section>
   <app-book [book]="b" *ngFor="let b of content" (delete)="delete($event)"></app-book>
 </section>
+
+<button id="addButton" (click)="showDialog()" *ngIf="dialogStatus === 'inactive'" mat-fab color="primary">
+  <i class="material-icons">add</i>
+</button>

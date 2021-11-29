@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Inject, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Inject, OnInit, Optional, Output} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {HttpClient} from "@angular/common/http";
@@ -15,7 +15,8 @@ export class AddCommentComponent implements OnInit {
   start:number;
   end:number;
 
-  constructor(private _dialogRef: MatDialogRef<AddCommentComponent>, private _http: HttpClient, @Inject(MAT_DIALOG_DATA) public book: Book) {
+  constructor(private _dialogRef: MatDialogRef<AddCommentComponent>, private _http: HttpClient, @Inject(MAT_DIALOG_DATA) public book: Book,
+             @Optional() @Inject(MAT_DIALOG_DATA) public comment:Comment) {
     this.form = new FormGroup({
       author: new FormControl('',Validators.required),
       text: new FormControl('',Validators.required),
@@ -34,6 +35,7 @@ export class AddCommentComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.form.patchValue(this.comment);
   }
 
 

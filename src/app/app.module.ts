@@ -22,7 +22,6 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatInputModule} from "@angular/material/input";
 import {MatFormFieldModule} from "@angular/material/form-field";
-import { AdminComponent } from './admin/admin.component';
 import { AddCommentComponent } from './shared/add-comment/add-comment.component';
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatNativeDateModule} from "@angular/material/core";
@@ -32,7 +31,6 @@ const appRoutes: Routes= [
   { path : 'home', component: HomeComponent },
   { path : 'books', component: BooksComponent },
   { path : 'books/:id', component: BookViewComponent },
-  { path : 'admin', component: AdminComponent },
   { path: '**', component: PageNotFoundComponent }
 ];
 
@@ -46,8 +44,7 @@ const appRoutes: Routes= [
     BookViewComponent,
     DialogComponent,
     FormComponent,
-    AdminComponent,
-    AddCommentComponent
+    AddCommentComponent,
   ],
   imports: [
     BrowserModule,

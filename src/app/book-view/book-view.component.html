@@ -9,8 +9,19 @@
   </div>
 
   <div id="printComment"  *ngIf="printComment">
-    <label>{{commentToPrint.author}}</label><br>
-    <textarea  [value]="commentToPrint.text"></textarea>
-    <button (click)="closeDialog()">Fermer</button>
+    <label>Posté par {{commentToPrint.author}} le {{commentToPrint.date}}</label><br>
+    <textarea  [value]="commentToPrint.text"></textarea><br>
+
+    <button (click)="modify(commentToPrint)" mat-mini-fab color="warn">
+      <i class="material-icons">edit</i>
+    </button>
+
+    <button (click)="closeDialog()" mat-mini-fab color="warn">
+      <i class="material-icons">close</i>
+    </button>
+
+    <button (click)="delete(commentToPrint)" mat-mini-fab color="warn">
+      <i class="material-icons">delete</i>
+    </button>
   </div>
 </body>

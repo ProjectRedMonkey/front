@@ -20,14 +20,14 @@
       Date de sortie&nbsp;:&nbsp; <label class="response">{{ book?.date }}</label>
     </div>
     <div class="buttons-info">
-      <a mat-button title="Nouvel Extrait">
-        <mat-icon>add</mat-icon>
+      <a mat-button title="Nouvel Extrait" color="primary">
+        <i class="material-icons">add</i>
       </a>
-      <a mat-button title="Editer" (click)="modify()">
-        <mat-icon>edit</mat-icon>
+      <a mat-button title="Editer" (click)="modify()" color="primary">
+        <i class="material-icons">edit</i>
       </a>
-      <a mat-button title="Supprimer" (click)="delete(book.id)">
-        <mat-icon>delete</mat-icon>
+      <a mat-button title="Supprimer" (click)="delete(book.id)" color="primary">
+        <i class="material-icons">delete</i>
       </a>
     </div>
   </mat-card-content>
