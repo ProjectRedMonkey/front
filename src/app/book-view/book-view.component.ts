@@ -18,6 +18,7 @@ export class BookViewComponent implements OnInit {
   private _comments:Comment[];
   commentToPrint:Comment;
   id:string;
+  idComment:string;
   highlighted:boolean;
   printComment:boolean;
   // @ts-ignore
@@ -25,6 +26,7 @@ export class BookViewComponent implements OnInit {
 
   constructor(private _http:HttpClient, private _route: ActivatedRoute, private _dialog: MatDialog) {
     this.id = "0";
+    this.idComment = "0";
     this._book = {} as Book;
     this._comments = [];
     this.highlighted = false;
@@ -115,13 +117,16 @@ export class BookViewComponent implements OnInit {
   }
 
   modify(comment: Comment) {
+    this.idComment = comment.id;
     let bookDialog = this._dialog.open(AddCommentComponent, {
       data:comment
     });
     bookDialog.afterClosed().pipe(
       filter((comment: Comment | undefined) => !!comment),
       mergeMap((comment: Comment | undefined) => this.edit(comment))).subscribe({
-      complete: () => this.commentToPrint = comment
+      complete: () => {this.commentToPrint.text = comment.text
+      this.ngOnInit()
+      this.closeDialog()}
     });
   }
 
@@ -132,7 +137,7 @@ export class BookViewComponent implements OnInit {
 
   edit(comment: Comment | undefined):Observable<Comment>{
     // @ts-ignore
-    return this._http.put<Comment>("http://localhost:3000/comments/"+comment.id, comment);
+    return this._http.put<Comment>("http://localhost:3000/comments/"+this.idComment, comment);
   }
 
 

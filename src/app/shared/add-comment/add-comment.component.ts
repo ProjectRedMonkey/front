@@ -14,8 +14,9 @@ export class AddCommentComponent implements OnInit {
   form:FormGroup;
   start:number;
   end:number;
+  updateMode:boolean;
 
-  constructor(private _dialogRef: MatDialogRef<AddCommentComponent>, private _http: HttpClient, @Inject(MAT_DIALOG_DATA) public book: Book,
+  constructor(private _dialogRef: MatDialogRef<AddCommentComponent>, private _http: HttpClient,@Optional() @Inject(MAT_DIALOG_DATA) public book: Book,
              @Optional() @Inject(MAT_DIALOG_DATA) public comment:Comment) {
     this.form = new FormGroup({
       author: new FormControl('',Validators.required),
@@ -23,6 +24,7 @@ export class AddCommentComponent implements OnInit {
     })
     this.start = 0;
     this.end = 0;
+    this.updateMode = false;
 
     var select = document.getSelection();
     if (select != null) {
@@ -35,7 +37,10 @@ export class AddCommentComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.form.patchValue(this.comment);
+    if(this.comment.text != undefined) {
+      this.form.patchValue(this.comment);
+      this.updateMode = true;
+    }
   }
 
 
@@ -44,8 +49,12 @@ export class AddCommentComponent implements OnInit {
   }
 
   save(comment: Comment) {
-    this.setUp(comment);
-    this._http.post("http://localhost:3000/comments", comment).subscribe();
+    if(!this.updateMode) {
+      this.setUp(comment);
+      this._http.post("http://localhost:3000/comments", comment).subscribe();
+    }else{
+      comment.date = 20;
+    }
     this._dialogRef.close(comment);
   }
 
