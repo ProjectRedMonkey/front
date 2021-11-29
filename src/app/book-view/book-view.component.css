@@ -44,10 +44,16 @@ h2:after {
   content: ' —';
 }
 
-.highlight {
-  background-color: yellow;
+#cm:hover {
+  background-color: red;
 }
+
 
 .test {
   background-color: yellow;
+}
+
+#printComment{
+  border-style:solid;
+  float:right;
 }

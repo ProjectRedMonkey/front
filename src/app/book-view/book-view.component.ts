@@ -16,9 +16,11 @@ export class BookViewComponent implements OnInit {
   private _book:Book;
   private _dialogRef:MatDialogRef<AddCommentComponent> | undefined;
   private _comments:Comment[];
+  commentToPrint:Comment;
   id:string;
   highlighted:boolean;
   printComment:boolean;
+  span:Element;
 
   constructor(private _http:HttpClient, private _route: ActivatedRoute, private _dialog: MatDialog) {
     this.id = "0";
@@ -26,6 +28,8 @@ export class BookViewComponent implements OnInit {
     this._comments = [];
     this.highlighted = false;
     this.printComment = false;
+    this.commentToPrint = {} as Comment;
+    this.span = {} as Element;
   }
 
   //Récupère le livre à afficher
@@ -76,18 +80,20 @@ export class BookViewComponent implements OnInit {
           this._dialogRef = this._dialog.open(AddCommentComponent, {
             width: '400px',
             position: dialogPosition,
-            data:this.id
+            data:this._book
           });
 
           this._dialogRef.afterClosed().subscribe(comment => {
-            if(!!comment) this._comments.push(comment);
+            if(!!comment){
+              this._comments.push(comment);
+              location.reload();}
           });
         }
       }
   }
 
   closeDialog() {
-    this.highlighted = false;
+    this.printComment = false;
   }
 
   get comments(): Comment[] {
@@ -96,12 +102,15 @@ export class BookViewComponent implements OnInit {
 
   //Surligne les passages commentés
   hightlightComments(start:number, end:number) {
+    let extract = this._book.extract;
+    let text = extract.substring(start, end);
     let inputText = document.getElementById("comment");
     // @ts-ignore
-    let innerHTML = this._book.extract;
-    if (start >= 0) {
+    let innerHTML = inputText.innerHTML;
+    var index = innerHTML.indexOf(text);
+    if (index >= 0) {
       // @ts-ignore
-      inputText.innerHTML = innerHTML.substring(0, start) + "<span style='background-color: yellow;'>" + innerHTML.substring(start, end) + "</span>" + innerHTML.substring(end);
+      inputText.innerHTML = innerHTML.substring(0, index) + "<span id='cm' style='background-color: yellow;'>" + innerHTML.substring(index, index+text.length) + "</span>" + innerHTML.substring(index+text.length);
     }
   }
 
@@ -109,10 +118,17 @@ export class BookViewComponent implements OnInit {
   showComment(event: MouseEvent){
     var x = event.clientX, y = event.clientY;
     // @ts-ignore
-    if(document.elementFromPoint(x, y).tagName == 'SPAN'){
-      this.printComment = true;
-    }else{
-      this.printComment = false;
+    this.span = document.elementFromPoint(x, y)
+    if(this.span != null) {
+      if (this.span.id == 'cm') {
+        this.span.setAttribute("style", 'background-color: red;')
+        this._comments.forEach(ele => {
+          // @ts-ignore
+          if (ele.start == this._book.extract.indexOf(this.span.textContent))
+            this.commentToPrint = ele
+        })
+        this.printComment = true;
+      }
     }
   }
 }

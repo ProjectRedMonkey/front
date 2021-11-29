@@ -1,4 +1,4 @@
-<body (mousedown)="closeDialog()" (mouseup)="showDialog($event)">
+<body (mouseup)="showDialog($event)">
   <div>
     <h1 id="title">{{book.title}}</h1>
     <h2>{{book.author}}</h2>
@@ -8,7 +8,8 @@
     </div>
   </div>
 
-  <div>
-    <textarea [value]="comments[0].text" *ngIf="printComment"></textarea>
+  <div id="printComment"  *ngIf="printComment">
+    <textarea  [value]="commentToPrint.text"></textarea>
+    <button (click)="closeDialog()">Fermer</button>
   </div>
 </body>

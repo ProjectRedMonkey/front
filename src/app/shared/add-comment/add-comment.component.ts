@@ -3,6 +3,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {HttpClient} from "@angular/common/http";
 import {Comment} from "../../types/comment.type";
+import {Book} from "../../types/book.type";
 
 @Component({
   selector: 'app-add-comment',
@@ -14,7 +15,7 @@ export class AddCommentComponent implements OnInit {
   start:number;
   end:number;
 
-  constructor(private _dialogRef: MatDialogRef<AddCommentComponent>, private _http: HttpClient, @Inject(MAT_DIALOG_DATA) public data: string) {
+  constructor(private _dialogRef: MatDialogRef<AddCommentComponent>, private _http: HttpClient, @Inject(MAT_DIALOG_DATA) public book: Book) {
     this.form = new FormGroup({
       author: new FormControl('',Validators.required),
       text: new FormControl('',Validators.required),
@@ -22,11 +23,12 @@ export class AddCommentComponent implements OnInit {
     this.start = 0;
     this.end = 0;
 
-    var select = window.getSelection();
+    var select = document.getSelection();
     if (select != null) {
       if (!select.isCollapsed) {
-        this.start = select.getRangeAt(0).startOffset;
-        this.end = select.getRangeAt(0).endOffset;
+        let text = select.toString()
+        this.start = this.book.extract.indexOf(select.toString());
+        this.end = this.start + text.length;
       }
     }
   }
@@ -46,7 +48,8 @@ export class AddCommentComponent implements OnInit {
   }
 
   private setUp(comment: Comment) {
-    comment.idBook = this.data;
+    // @ts-ignore
+    comment.idBook = this.book.id;
     var today = new Date();
     comment.date = Number(today.getDate());
     comment.start = this.start;
