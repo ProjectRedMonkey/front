@@ -49,9 +49,9 @@ export class AddCommentComponent implements OnInit {
 
   private setUp(comment: Comment) {
     // @ts-ignore
-    comment.idBook = this.book.id;
+    comment.idOfBook = this.book.id;
     var today = new Date();
-    comment.date = Number(today.getDate());
+    comment.date = 20;
     comment.start = this.start;
     comment.end = this.end;
   }

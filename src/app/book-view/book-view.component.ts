@@ -53,7 +53,7 @@ export class BookViewComponent implements OnInit {
         defaultIfEmpty([])
       )
       .subscribe({ next: (comments: Comment[]) => {
-          this._comments = comments.filter(obj => obj.idBook === this.id)
+          this._comments = comments.filter(obj => obj.idOfBook === this.id)
           this._comments.forEach(ele => this.hightlightComments(ele.start, ele.end))}});
   }
 
