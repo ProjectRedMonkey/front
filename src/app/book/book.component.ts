@@ -67,7 +67,10 @@ export class BookComponent implements OnInit {
 
   private _edit(book: Book | undefined):Observable<Book> {
     if(!!book) {
+      //Bricolage pour Charles
+      let extract = this._book.extract;
       this.updateBook(book);
+      book.extract += "//"+extract;
     }
     return this._http.put<Book>("http://localhost:3000/books/"+this._book.id, book,  { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) });
   }
