@@ -5,6 +5,6 @@ export type Book = {
   author: string;
   category:string;
   page:number;
-  date?:number;
+  date?:Date;
   extract: string;
 };

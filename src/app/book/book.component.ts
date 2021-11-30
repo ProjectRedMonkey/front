@@ -38,7 +38,7 @@ export class BookComponent implements OnInit {
   }
 
   @Input()
-  set book(value: any) {
+  set book(value: Book) {
     this._book = value;
   }
 
@@ -50,6 +50,7 @@ export class BookComponent implements OnInit {
     this._bookDialog = this._dialog.open(DialogComponent,{
       data:this._book
     });
+
     this._bookDialog.afterClosed().pipe(
       filter((book: Book | undefined) => !!book),
       map((book: Book | undefined) => {

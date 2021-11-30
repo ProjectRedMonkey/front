@@ -21,7 +21,7 @@ export class AddCommentComponent implements OnInit {
     this.form = new FormGroup({
       author: new FormControl('',Validators.required),
       text: new FormControl('', Validators.compose([
-        Validators.required, Validators.minLength(10)
+        Validators.required, Validators.minLength(10), Validators.maxLength(500)
       ])),
     })
     this.start = 0;
@@ -45,7 +45,6 @@ export class AddCommentComponent implements OnInit {
     }
   }
 
-
   cancel() {
     this._dialogRef.close();
   }
@@ -53,9 +52,11 @@ export class AddCommentComponent implements OnInit {
   save(comment: Comment) {
     if(!this.updateMode) {
       this.setUp(comment);
+      console.log(comment);
       this._http.post("http://localhost:3000/comments", comment).subscribe();
     }else{
-      comment.date = 20;
+      comment.date = new Date();
+      comment.date.setHours(comment.date .getHours()+1)
     }
     this._dialogRef.close(comment);
   }
@@ -63,8 +64,8 @@ export class AddCommentComponent implements OnInit {
   private setUp(comment: Comment) {
     // @ts-ignore
     comment.idOfBook = this.book.id;
-    var today = new Date();
-    comment.date = 20;
+    comment.date = new Date();
+    comment.date.setHours(comment.date .getHours()+1)
     comment.start = this.start;
     comment.end = this.end;
   }

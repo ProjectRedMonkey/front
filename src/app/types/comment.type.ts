@@ -2,7 +2,7 @@ export type Comment = {
   id:string;
   idOfBook: string;
   author: string;
-  date?: number; // can use the actual date
+  date?: Date; // can use the actual date
   start: number;
   end: number;
   text: string;

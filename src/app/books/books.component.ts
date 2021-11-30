@@ -32,7 +32,8 @@ export class BooksComponent implements OnInit {
         defaultIfEmpty([])
       )
       .subscribe({ next: (books: Book[]) => {
-        this._books = books
+          console.log(books)
+          this._books = books
           this.content = books
         }});
   }
@@ -89,11 +90,8 @@ export class BooksComponent implements OnInit {
   }
 
   private setUp(book: Book | undefined) {
-    if(!!book) {
-      book.date = 20;
-      if(book.photo == ""){
-        book.photo = "https://islandpress.org/sites/default/files/default_book_cover_2015.jpg";
-      }
+    if(book != undefined && book.photo == ""){
+      book.photo = "https://islandpress.org/sites/default/files/default_book_cover_2015.jpg";
     }
   }
 }

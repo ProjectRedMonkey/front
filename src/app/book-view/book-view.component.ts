@@ -21,6 +21,7 @@ export class BookViewComponent implements OnInit {
   idComment:string;
   highlighted:boolean;
   printComment:boolean;
+  date:string;
   // @ts-ignore
   span:Element;
 
@@ -32,6 +33,7 @@ export class BookViewComponent implements OnInit {
     this.highlighted = false;
     this.printComment = false;
     this.commentToPrint = {} as Comment;
+    this.date = "";
   }
 
   //Récupère le livre à afficher
@@ -46,7 +48,9 @@ export class BookViewComponent implements OnInit {
       .pipe(
         filter((book: Book) => !!book)
       )
-      .subscribe({ next: (book: Book) => this._book = book});
+      .subscribe({ next: (book: Book) => {
+        this._book = book
+        }});
 
     //Récupère les commentaires associés au livre
     this._http.get<Comment[]>("http://localhost:3000/comments")
@@ -88,7 +92,8 @@ export class BookViewComponent implements OnInit {
           this._dialogRef.afterClosed().subscribe(comment => {
             if(!!comment){
               this._comments.push(comment);
-              location.reload();}
+              location.reload();
+              }
           });
         }
       }
@@ -160,7 +165,11 @@ export class BookViewComponent implements OnInit {
             this._comments.forEach(ele => {
               // @ts-ignore
               if (ele.start == this._book.extract.indexOf(this.span.textContent)) {
-                this.commentToPrint = ele
+                this.commentToPrint = ele;
+                // @ts-ignore
+                let tampon = ele.date.toString()
+                this.date = tampon.substring(8,10)+"/"+tampon.substring(5, 7)+"/"+tampon.substring(0,4)+" à "+ tampon.substring(11,16)
+                console.log(ele.date);
               }
             })
             this.printComment = true;

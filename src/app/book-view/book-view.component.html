@@ -11,9 +11,9 @@
 
   <div id="printComment"  [hidden]="!printComment">
     <mat-card>
-      <mat-card-title>Posté par {{commentToPrint.author}} le {{commentToPrint.date}}</mat-card-title>
-      <mat-card-content>
-        <textarea readonly [value]="commentToPrint.text"></textarea><br>
+      <mat-card-title>Posté par <span class="aut">{{commentToPrint.author}} </span> le <span class="date">{{date}}</span></mat-card-title>
+      <mat-card-content id="parent">
+        <label id="children">{{commentToPrint.text}}</label><br>
       </mat-card-content>
 
       <button (click)="modify(commentToPrint)" mat-mini-fab color="warn">
