@@ -114,7 +114,7 @@ export class BookViewComponent implements OnInit {
     let inputText = document.getElementById("comment");
     // @ts-ignore
     let innerHTML = inputText.innerHTML;
-    var index = innerHTML.indexOf(text);
+    let index = innerHTML.indexOf(text);
     if (index >= 0) {
       // @ts-ignore
       inputText.innerHTML = innerHTML.substring(0, index) + "<span id='cm' style='background-color: yellow;'>" + innerHTML.substring(index, index+text.length) + "</span>" + innerHTML.substring(index+text.length);

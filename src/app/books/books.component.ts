@@ -32,7 +32,6 @@ export class BooksComponent implements OnInit {
         defaultIfEmpty([])
       )
       .subscribe({ next: (books: Book[]) => {
-          console.log(books)
           this._books = books
           this.content = books
         }});
@@ -76,7 +75,9 @@ export class BooksComponent implements OnInit {
     )
       .subscribe({
         error: () => this._dialogStatus = 'inactive',
-        complete: () => this._dialogStatus = 'inactive'
+        complete: () => {
+          this._dialogStatus = 'inactive'
+        }
       });
   }
 

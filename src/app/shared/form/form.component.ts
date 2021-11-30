@@ -3,6 +3,8 @@ import {AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, 
 import {Book} from "../../types/book.type";
 import {HttpClient} from "@angular/common/http";
 import {defaultIfEmpty, filter} from "rxjs";
+import {DatePipe} from "@angular/common";
+import {DateAdapter} from "@angular/material/core";
 
 @Component({
   selector: 'app-form',
@@ -16,11 +18,12 @@ export class FormComponent implements OnInit {
   private _model: Book;
   books: Book[];
 
-  constructor(private _http: HttpClient) {
+  constructor(private _http: HttpClient, private dateAdapter: DateAdapter<Date>) {
     this.books = [];
     this._cancel$ = new EventEmitter<void>();
     this._save$ = new EventEmitter<Book>();
     this._model = {} as Book;
+    this.dateAdapter.setLocale('en-GB');
     this._form = this.buildForm();
   }
 

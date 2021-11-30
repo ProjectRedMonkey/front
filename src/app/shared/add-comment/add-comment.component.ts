@@ -52,7 +52,6 @@ export class AddCommentComponent implements OnInit {
   save(comment: Comment) {
     if(!this.updateMode) {
       this.setUp(comment);
-      console.log(comment);
       this._http.post("http://localhost:3000/comments", comment).subscribe();
     }else{
       comment.date = new Date();

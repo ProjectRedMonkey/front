@@ -25,6 +25,7 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import { AddCommentComponent } from './shared/add-comment/add-comment.component';
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatNativeDateModule} from "@angular/material/core";
+import {DatePipe} from "@angular/common";
 
 const appRoutes: Routes= [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -67,7 +68,7 @@ const appRoutes: Routes= [
     MatNativeDateModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [MatDatepickerModule],
+  providers: [MatDatepickerModule, DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
