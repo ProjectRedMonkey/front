@@ -7,6 +7,9 @@
       <div *ngIf="form.get('title')?.dirty && form.get('title')?.hasError('required')">
         <mat-error>Veuillez préciser le <strong>titre</strong></mat-error>
       </div>
+      <div *ngIf="form.get('title')?.dirty && form.get('title')?.hasError('titleAlreadyExists')">
+        <mat-error>Ce titre existe déjà</mat-error>
+      </div>
     </mat-form-field>
 
 

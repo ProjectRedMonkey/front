@@ -14,6 +14,9 @@
       <div *ngIf="form.get('text')?.dirty && form.get('text')?.hasError('required')">
         <mat-error>Veuillez entrer votre <strong>commentaire</strong></mat-error>
       </div>
+      <div *ngIf="form.get('text')?.dirty && form.get('text')?.hasError('minlength')">
+        <mat-error>Votre commentaire doit faire au moins <strong>10</strong> caractères</mat-error>
+      </div>
     </mat-form-field>
 
   </form>

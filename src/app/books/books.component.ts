@@ -84,12 +84,16 @@ export class BooksComponent implements OnInit {
   }
 
   private _add(book: Book | undefined): Observable<Book> {
+    this.setUp(book);
+    return this._http.post<Book>("http://localhost:3000/books", book,  { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) });
+  }
+
+  private setUp(book: Book | undefined) {
     if(!!book) {
       book.date = 20;
       if(book.photo == ""){
         book.photo = "https://islandpress.org/sites/default/files/default_book_cover_2015.jpg";
       }
     }
-    return this._http.post<Book>("http://localhost:3000/books", book,  { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) });
   }
 }

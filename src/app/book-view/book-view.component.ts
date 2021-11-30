@@ -133,6 +133,7 @@ export class BookViewComponent implements OnInit {
   delete(comment: Comment) {
     this._http.delete("http://localhost:3000/comments/"+comment.id)
       .subscribe({ next: () =>this._comments = this._comments.filter((c: Comment) => c.id !== comment.id)});
+    location.reload();
   }
 
   edit(comment: Comment | undefined):Observable<Comment>{

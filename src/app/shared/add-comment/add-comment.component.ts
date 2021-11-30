@@ -20,7 +20,9 @@ export class AddCommentComponent implements OnInit {
              @Optional() @Inject(MAT_DIALOG_DATA) public comment:Comment) {
     this.form = new FormGroup({
       author: new FormControl('',Validators.required),
-      text: new FormControl('',Validators.required),
+      text: new FormControl('', Validators.compose([
+        Validators.required, Validators.minLength(10)
+      ])),
     })
     this.start = 0;
     this.end = 0;
