@@ -7,6 +7,12 @@
       <div *ngIf="form.get('title')?.dirty && form.get('title')?.hasError('required')">
         <mat-error>Veuillez préciser le <strong>titre</strong></mat-error>
       </div>
+      <div *ngIf="form.get('title')?.dirty && form.get('title')?.hasError('minlength')">
+        <mat-error>Le titre est trop court</mat-error>
+      </div>
+      <div *ngIf="form.get('title')?.dirty && form.get('title')?.hasError('maxlength')">
+        <mat-error>Le titre est trop long</mat-error>
+      </div>
       <div *ngIf="form.get('title')?.dirty && form.get('title')?.hasError('titleAlreadyExists')">
         <mat-error>Ce titre existe déjà</mat-error>
       </div>
@@ -18,6 +24,12 @@
       <div *ngIf="form.get('author')?.dirty && form.get('author')?.hasError('required')">
         <mat-error>Veuillez préciser l' <strong>auteur</strong></mat-error>
       </div>
+      <div *ngIf="form.get('author')?.dirty && form.get('author')?.hasError('minlength')">
+        <mat-error>L'auteur doit faire au moins <strong>2</strong> caractères</mat-error>
+      </div>
+      <div *ngIf="form.get('author')?.dirty && form.get('author')?.hasError('maxlength')">
+        <mat-error>Le nom d'auteur est trop long</mat-error>
+      </div>
     </mat-form-field>
 
 
@@ -25,6 +37,12 @@
     <input matInput name="category" placeholder="Catégorie" [formControlName]="'category'">
       <div *ngIf="form.get('category')?.dirty && form.get('category')?.hasError('required')">
         <mat-error>Veuillez préciser la <strong>catégorie</strong></mat-error>
+      </div>
+      <div *ngIf="form.get('category')?.dirty && form.get('category')?.hasError('minlength')">
+        <mat-error>La catégorie doit faire au moins <strong>2</strong> caractères</mat-error>
+      </div>
+      <div *ngIf="form.get('category')?.dirty && form.get('category')?.hasError('maxlength')">
+        <mat-error>La catégorie est trop longue</mat-error>
       </div>
     </mat-form-field>
 
@@ -45,9 +63,22 @@
     </mat-form-field>
 
     <mat-form-field class="full-width">
+      <input matInput type="number" name="page" placeholder="Page" [formControlName]="'page'">
+      <div *ngIf="form.get('page')?.dirty && form.get('page')?.hasError('required')">
+        <mat-error>Veuillez indiquer la <strong>page</strong> de l'extrait concerné</mat-error>
+      </div>
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
       <textarea matInput name="extract" placeholder="extract" [formControlName]="'extract'"></textarea>
       <div *ngIf="form.get('extract')?.dirty && form.get('extract')?.hasError('required')">
         <mat-error>Merci de donner un <strong>extrait</strong> du livre</mat-error>
+      </div>
+      <div *ngIf="form.get('extract')?.dirty && form.get('extract')?.hasError('minlength')">
+        <mat-error>Merci de donner un extrait d'au moins <strong>50</strong> caractères</mat-error>
+      </div>
+      <div *ngIf="form.get('extract')?.dirty && form.get('extract')?.hasError('maxlength')">
+        <mat-error>L'extrait est trop grand</mat-error>
       </div>
     </mat-form-field>
 

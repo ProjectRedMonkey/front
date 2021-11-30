@@ -159,10 +159,15 @@ export class BookViewComponent implements OnInit {
             this.span.setAttribute("style", 'background-color: red;')
             this._comments.forEach(ele => {
               // @ts-ignore
-              if (ele.start == this._book.extract.indexOf(this.span.textContent))
+              if (ele.start == this._book.extract.indexOf(this.span.textContent)) {
                 this.commentToPrint = ele
+              }
             })
             this.printComment = true;
+            let commentDiv = document.getElementById("printComment");
+            if(commentDiv != null) {
+              commentDiv.style.top = event.y+'px';
+            }
           }
         }
       }

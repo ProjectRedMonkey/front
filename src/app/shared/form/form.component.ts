@@ -25,7 +25,6 @@ export class FormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this._form.patchValue(this._model);
     this._http.get<Book[]>("http://localhost:3000/books")
       .pipe(
         filter((books: Book[]) => !!books),
@@ -37,6 +36,7 @@ export class FormComponent implements OnInit {
         }
       });
     this._form = this.buildForm();
+    this._form.patchValue(this._model);
   }
 
   @Output('cancel') get cancel$(): EventEmitter<any> {
@@ -82,11 +82,16 @@ export class FormComponent implements OnInit {
 
   private buildForm() {
     return new FormGroup({
-      title: new FormControl('', Validators.compose([Validators.required, this.titleAlreadyExists(this.books)])),
-      author: new FormControl('', Validators.required),
-      category: new FormControl('', Validators.required),
+      title: new FormControl('', Validators.compose([Validators.required, Validators.minLength(2),
+        Validators.maxLength(40), this.titleAlreadyExists(this.books)])),
+      author: new FormControl('', Validators.compose([Validators.required, Validators.minLength(2),
+        Validators.maxLength(40)])),
+      category: new FormControl('', Validators.compose([Validators.required, Validators.minLength(2),
+        Validators.maxLength(40)])),
+      page: new FormControl('', Validators.required),
       date: new FormControl(''),
-      extract: new FormControl('', Validators.required),
+      extract: new FormControl('', Validators.compose([Validators.required, Validators.minLength(50),
+        Validators.maxLength(2000)])),
       photo: new FormControl('', Validators.pattern(/\S+\.(jpg|jpeg|gif|png)$/)),
     });
   }

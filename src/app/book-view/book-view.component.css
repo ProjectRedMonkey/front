@@ -5,7 +5,7 @@ body {
   text-align: center;
 }
 
-div, h1, h2, p, label {
+div, h1, h2, h3, p, label {
   margin: 0;
   padding: 0;
 }
@@ -17,7 +17,7 @@ div, h1, h2, p, label {
   line-height: 40px;
   width: 700px;
 }
-h1, h2 {
+h1, h2, h3 {
   font-weight: normal;
   text-align: center;
 }
@@ -28,9 +28,15 @@ h1 {
 }
 h2 {
   color: #666;
-  font-size: 18px;
+  font-size: 22px;
   font-style: italic;
   margin-bottom: 30px;
+}
+
+h3{
+  color: #666;
+  font-size: 18px;
+  font-style: italic;
 }
 p {
   line-height: 1.5;
@@ -56,4 +62,6 @@ h2:after {
 #printComment{
   border-style:solid;
   float:right;
+  position: absolute;
+  right: 0;
 }

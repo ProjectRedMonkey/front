@@ -2,13 +2,14 @@
   <div>
     <h1 id="title">{{book.title}}</h1>
     <h2>{{book.author}}</h2>
+    <h3> Extrait p.{{book.page}}</h3>
 
     <div id="extract">
       <label (mouseover)='showComment($event)' id="comment">{{book.extract}}</label>
     </div>
   </div>
 
-  <div id="printComment"  *ngIf="printComment">
+  <div id="printComment"  [hidden]="!printComment">
     <label>Posté par {{commentToPrint.author}} le {{commentToPrint.date}}</label><br>
     <textarea  [value]="commentToPrint.text"></textarea><br>
 
