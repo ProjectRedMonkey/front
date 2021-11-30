@@ -10,19 +10,23 @@
   </div>
 
   <div id="printComment"  [hidden]="!printComment">
-    <label>Posté par {{commentToPrint.author}} le {{commentToPrint.date}}</label><br>
-    <textarea  [value]="commentToPrint.text"></textarea><br>
+    <mat-card>
+      <mat-card-title>Posté par {{commentToPrint.author}} le {{commentToPrint.date}}</mat-card-title>
+      <mat-card-content>
+        <textarea readonly [value]="commentToPrint.text"></textarea><br>
+      </mat-card-content>
 
-    <button (click)="modify(commentToPrint)" mat-mini-fab color="warn">
-      <i class="material-icons">edit</i>
-    </button>
+      <button (click)="modify(commentToPrint)" mat-mini-fab color="warn">
+        <i class="material-icons">edit</i>
+      </button>
 
-    <button (click)="closeDialog()" mat-mini-fab color="warn">
-      <i class="material-icons">close</i>
-    </button>
+      <button (click)="closeDialog()" mat-mini-fab color="warn">
+        <i class="material-icons">close</i>
+      </button>
 
-    <button (click)="delete(commentToPrint)" mat-mini-fab color="warn">
-      <i class="material-icons">delete</i>
-    </button>
+      <button (click)="delete(commentToPrint)" mat-mini-fab color="warn">
+        <i class="material-icons">delete</i>
+      </button>
+    </mat-card>
   </div>
 </body>

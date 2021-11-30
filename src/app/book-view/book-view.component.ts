@@ -69,8 +69,8 @@ export class BookViewComponent implements OnInit {
 
   showDialog(event: MouseEvent) {
     var select = window.getSelection();
-    if (!!select && !!select.anchorNode && !!select.anchorNode.parentNode && !select.isCollapsed) {
-        if(select.anchorNode.parentNode.nodeName == 'LABEL') {
+    if (!!select && !!select.anchorNode &&!!select.focusNode && !!select.anchorNode.parentNode && !!select.focusNode.parentElement && !select.isCollapsed) {
+        if(select.anchorNode.parentNode.nodeName == 'LABEL' && select.focusNode.parentElement.id != "cm") {
 
           this._dialogRef?.close();
           this.highlighted = true;
