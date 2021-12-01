@@ -16,14 +16,14 @@ export class BooksComponent implements OnInit {
   private _bookDialog:MatDialogRef<DialogComponent> | undefined;
   private _dialogStatus:string;
   //String tapé dans la barre de recherche
-  private _searchword:string;
+  private _searchWord:string;
   //Affiche les livres filtrés par la recherche
   private _content:Book[];
 
   constructor(private _http: HttpClient, private _dialog: MatDialog, private _router:Router) {
     this._books = [];
     this._content = [];
-    this._searchword = "";
+    this._searchWord = "";
     this._dialogStatus = "inactive";
   }
 
@@ -57,7 +57,7 @@ export class BooksComponent implements OnInit {
    * Remplit content en fonction du terme recherché
    */
   searchThis() {
-    let data = this._searchword;
+    let data = this._searchWord;
     this._content = this._books;
     let authors = this._books;
     if (data) {
@@ -129,11 +129,11 @@ export class BooksComponent implements OnInit {
     return this._content;
   }
 
-  get searchword(): string {
-    return this._searchword;
+  get searchWord(): string {
+    return this._searchWord;
   }
 
-  set searchword(str:string){
-    this.searchword = str;
+  set searchWord(value: string) {
+    this._searchWord = value;
   }
 }
