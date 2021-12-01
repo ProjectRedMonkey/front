@@ -25,6 +25,8 @@ export class BookViewComponent implements OnInit {
   date:string;
   // @ts-ignore
   span:Element;
+  // @ts-ignore
+  lastSpan:Element;
 
   constructor(private _http:HttpClient, private _route: ActivatedRoute, private _dialog: MatDialog) {
     this.id = "0";
@@ -225,36 +227,49 @@ export class BookViewComponent implements OnInit {
    */
   showComment(event: MouseEvent){
     let x = event.clientX, y = event.clientY;
+    if(this.span != undefined)
+    this.span.setAttribute("style", 'background-color: yellow;');
+    this.hasUpVoted = false;
     let mouseSpan = document.elementFromPoint(x, y);
     if(mouseSpan != null) {
-      if (this.span != undefined) {
-        if (this.span.id == "cm" && this.span.textContent != mouseSpan.textContent && mouseSpan.id == "cm") {
-          this.span.setAttribute("style", 'background-color: yellow;');
-          this.hasUpVoted = false;
-        }
-      }
-
       if (mouseSpan.id == "cm") {
         this.span = mouseSpan;
         if (this.span != null) {
           if (this.span.id == 'cm') {
-            this.span.setAttribute("style", 'background-color: red;')
             this._comments.forEach(ele => {
               // @ts-ignore
               if (ele.start == this._book.extract.indexOf(this.span.textContent)) {
                 this.commentToPrint = ele;
                 // @ts-ignore
-                let tampon = ele.date.toString()
-                this.date = tampon.substring(8,10)+"/"+tampon.substring(5, 7)+"/"+tampon.substring(0,4)+" à "+ tampon.substring(11,16)
+                let tampon = ele.date.toString();
+                this.date = tampon.substring(8,10)+"/"+tampon.substring(5, 7)+"/"+tampon.substring(0,4)+" à "+ tampon.substring(11,16);
               }
             })
             this.printComment = true;
+            this.span = mouseSpan;
             let commentDiv = document.getElementById("printComment");
             if(commentDiv != null) {
               commentDiv.style.top = event.y+'px';
             }
           }
         }
+      }
+    }
+  }
+
+  highLight(event: MouseEvent) {
+    let x = event.clientX, y = event.clientY;
+    let mouseSpan = document.elementFromPoint(x, y);
+    if(mouseSpan != null) {
+      if (mouseSpan.id == "cm") {
+        mouseSpan.setAttribute("style", 'background-color: red;');
+        this.lastSpan = mouseSpan;
+      }
+      if(mouseSpan.id != "cm" && this.printComment && this.lastSpan != this.span){
+        this.lastSpan.setAttribute("style", 'background-color: yellow;');
+      }
+      if(mouseSpan.id != "cm" && !this.printComment && mouseSpan != this.span){
+        this.lastSpan.setAttribute("style", 'background-color: yellow;');
       }
     }
   }
