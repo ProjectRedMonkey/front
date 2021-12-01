@@ -73,11 +73,16 @@ export class BookViewComponent implements OnInit {
     this._book = value;
   }
 
+  /**
+   * Affiche le dialog pour ajouter un commentaire si les contraintes sont respectées
+   * @param event
+   */
   showDialog(event: MouseEvent) {
     let select = window.getSelection();
     let nodes = document.getElementsByName("cm");
     let verifyContent:boolean[];
     verifyContent = [];
+    // Vérifie si un commentaire n'est pas présent dans la selection
     // @ts-ignore
     nodes.forEach(node => verifyContent.push(select.containsNode(node, true)))
     if (!!select && !!select.anchorNode &&!!select.focusNode && !!select.anchorNode.parentNode && !!select.focusNode.parentElement && !select.isCollapsed) {
@@ -116,6 +121,9 @@ export class BookViewComponent implements OnInit {
       }
   }
 
+  /**
+   * Ferme le commentaire
+   */
   closeDialog() {
     this.span.setAttribute("style", 'background-color: yellow;')
     this.printComment = false;
@@ -125,7 +133,11 @@ export class BookViewComponent implements OnInit {
     return this._comments;
   }
 
-  //Surligne les passages commentés
+  /**
+   * Surligne les passages commentés
+   * @param start
+   * @param end
+   */
   hightlightComments(start:number, end:number) {
     let extract = this._book.extract;
     let text = extract.substring(start, end);
@@ -139,6 +151,10 @@ export class BookViewComponent implements OnInit {
     }
   }
 
+  /**
+   * Modifie le texte d'un commentaire
+   * @param comment nouveau commentaire
+   */
   modify(comment: Comment) {
     this.idComment = comment.id;
     let bookDialog = this._dialog.open(AddCommentComponent, {
@@ -153,18 +169,29 @@ export class BookViewComponent implements OnInit {
     });
   }
 
+  /**
+   * Supprime un commentaire dans l'API
+   * @param comment à supprimer
+   */
   delete(comment: Comment) {
     this._http.delete("http://localhost:3000/comments/"+comment.id)
       .subscribe({ next: () =>this._comments = this._comments.filter((c: Comment) => c.id !== comment.id)});
     location.reload();
   }
 
+  /**
+   * Modifie un commentaire dans l'API
+   * @param comment à modifier
+   */
   edit(comment: Comment | undefined):Observable<Comment>{
     // @ts-ignore
     return this._http.put<Comment>("http://localhost:3000/comments/"+this.idComment, comment);
   }
 
-
+  /**
+   * Ajoute un upVote à un commentaire
+   * @param comment commentaire à upvote
+   */
   upVote(comment: Comment) {
     if(!this.hasUpVoted){
       this.idComment = comment.id;
@@ -192,7 +219,10 @@ export class BookViewComponent implements OnInit {
   }
 
 
-  //Affiche le commentaire quand la souris passe dessus
+  /**
+   * Affiche le commentaire quand la souris passe dessus
+   * @param event pour récupérer la position de la souris
+   */
   showComment(event: MouseEvent){
     let x = event.clientX, y = event.clientY;
     let mouseSpan = document.elementFromPoint(x, y);

@@ -15,14 +15,15 @@ export class BooksComponent implements OnInit {
   private _books: Book[];
   private _bookDialog:MatDialogRef<DialogComponent> | undefined;
   private _dialogStatus:string;
-  searchword:string;
+  //String tapé dans la barre de recherche
+  private _searchword:string;
   //Affiche les livres filtrés par la recherche
-  content:Book[];
+  private _content:Book[];
 
   constructor(private _http: HttpClient, private _dialog: MatDialog, private _router:Router) {
     this._books = [];
-    this.content = [];
-    this.searchword = "";
+    this._content = [];
+    this._searchword = "";
     this._dialogStatus = "inactive";
   }
 
@@ -34,26 +35,33 @@ export class BooksComponent implements OnInit {
       )
       .subscribe({ next: (books: Book[]) => {
           this._books = books
-          this.content = books
+          this._content = books
         }});
   }
 
+  /**
+   * Delete un livre
+   * @param id du livre à supprimer
+   */
   delete(id:string) {
     this._http.delete("http://localhost:3000/books/"+id)
       .subscribe({ next: () => {this._books = this._books.filter((b: Book) => b.id !== id)
-          this.content = this._books} });
+          this._content = this._books} });
   }
 
   get books(): Book[] {
     return this._books;
   }
 
+  /**
+   * Remplit content en fonction du terme recherché
+   */
   searchThis() {
-    let data = this.searchword;
-    this.content = this._books;
+    let data = this._searchword;
+    this._content = this._books;
     let authors = this._books;
     if (data) {
-      this.content = this._books.filter(function (ele, i, array) {
+      this._content = this._books.filter(function (ele, i, array) {
         let arrayelement = ele.title.toLowerCase()
         return arrayelement.includes(data.toLowerCase())
       })
@@ -61,11 +69,14 @@ export class BooksComponent implements OnInit {
         let arrayelement = ele.author.toLowerCase()
         return arrayelement.includes(data.toLowerCase())
       })
-      authors.forEach(element => this.content.indexOf(element) === -1 ? this.content.push(element) : !!authors);
+      authors.forEach(element => this._content.indexOf(element) === -1 ? this._content.push(element) : !!authors);
 
     }
   }
 
+  /**
+   * Affiche le dialog d'ajout de livre
+   */
   showDialog() {
     this._dialogStatus = 'active';
     this._bookDialog = this._dialog.open(DialogComponent);
@@ -86,20 +97,43 @@ export class BooksComponent implements OnInit {
     return this._dialogStatus;
   }
 
+  /**
+   * Ajoute un livre dans l'API
+   * @param book à ajouter
+   * @private
+   */
   private _add(book: Book | undefined): Observable<Book> {
-    this.setUp(book);
+    this._setUp(book);
     return this._http.post<Book>("http://localhost:3000/books", book,  { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) });
   }
 
-  private setUp(book: Book | undefined) {
+  /**
+   * Met une photo par défaut si aucune n'a été donnée
+   */
+  private _setUp(book: Book | undefined) {
     if(book != undefined && book.photo == ""){
       book.photo = "https://islandpress.org/sites/default/files/default_book_cover_2015.jpg";
     }
   }
 
+  /**
+   * Renvoie vers la page d'un livre au hasard
+   */
   randomBook() {
     let b:Book;
     b=this._books[Math.round(Math.random() * this._books.length)];
     this._router.navigate(['/books/'+b.id]);
+  }
+
+  get content(): Book[] {
+    return this._content;
+  }
+
+  get searchword(): string {
+    return this._searchword;
+  }
+
+  set searchword(str:string){
+    this.searchword = str;
   }
 }
