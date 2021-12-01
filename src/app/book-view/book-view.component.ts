@@ -228,6 +228,8 @@ export class BookViewComponent implements OnInit {
   showComment(event: MouseEvent){
     let x = event.clientX, y = event.clientY;
     let mouseSpan = document.elementFromPoint(x, y);
+    if(this.span != undefined && this.span != mouseSpan)
+    this.span.setAttribute("style", 'background-color: #fff33a;');
     if(mouseSpan != null && this.span != mouseSpan) {
       if (mouseSpan.id == "cm") {
         this.hasUpVoted = false;
