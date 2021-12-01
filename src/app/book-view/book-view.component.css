@@ -87,3 +87,7 @@ mat-card-content{
 #children{
   border:black;
 }
+
+button{
+  margin-right: 50px;
+}

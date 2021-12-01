@@ -13,6 +13,11 @@
   <app-book [book]="b" *ngFor="let b of content" (delete)="delete($event)"></app-book>
 </section>
 
-<button id="addButton" (click)="showDialog()" *ngIf="dialogStatus === 'inactive'" mat-fab color="primary">
-  <i class="material-icons">add</i>
-</button>
+<div id="buttons">
+  <button (click)="randomBook()" *ngIf="dialogStatus === 'inactive'" mat-fab color="primary">
+    <i class="material-icons">swap_horiz</i>
+  </button>
+  <button id="addButton" (click)="showDialog()" *ngIf="dialogStatus === 'inactive'" mat-fab color="primary">
+    <i class="material-icons">add</i>
+  </button>
+</div>

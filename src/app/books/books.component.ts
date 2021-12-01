@@ -4,6 +4,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {defaultIfEmpty, filter, mergeMap, Observable} from "rxjs";
 import {DialogComponent} from "../shared/dialog/dialog.component";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-books',
@@ -18,7 +19,7 @@ export class BooksComponent implements OnInit {
   //Affiche les livres filtrés par la recherche
   content:Book[];
 
-  constructor(private _http: HttpClient, private _dialog: MatDialog) {
+  constructor(private _http: HttpClient, private _dialog: MatDialog, private _router:Router) {
     this._books = [];
     this.content = [];
     this.searchword = "";
@@ -94,5 +95,11 @@ export class BooksComponent implements OnInit {
     if(book != undefined && book.photo == ""){
       book.photo = "https://islandpress.org/sites/default/files/default_book_cover_2015.jpg";
     }
+  }
+
+  randomBook() {
+    let b:Book;
+    b=this._books[Math.round(Math.random() * this._books.length)];
+    this._router.navigate(['/books/'+b.id]);
   }
 }
