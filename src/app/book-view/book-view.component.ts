@@ -262,7 +262,7 @@ export class BookViewComponent implements OnInit {
     let mouseSpan = document.elementFromPoint(x, y);
     if(mouseSpan != null) {
       if (mouseSpan.id == "cm") {
-        mouseSpan.setAttribute("style", 'background-color: red;');
+        mouseSpan.setAttribute("style", 'background-color: red;cursor: pointer;');
         this.lastSpan = mouseSpan;
       }
       if(mouseSpan.id != "cm" && this.printComment && this.lastSpan != this.span){
