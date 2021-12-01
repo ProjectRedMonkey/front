@@ -80,13 +80,19 @@ export class BookViewComponent implements OnInit {
 
           this._dialogRef?.close();
           this.highlighted = true;
+          let y = event.y;
+          let sizeDialog = 250;
+          if(event.y + sizeDialog > window.innerHeight){
+            y -= sizeDialog;
+          }
           const dialogPosition: DialogPosition = {
-            top: event.y + 'px',
-            left: event.x + 'px'
+            top: y + 'px',
+            left: event.x + 'px',
           };
 
           this._dialogRef = this._dialog.open(AddCommentComponent, {
             width: '400px',
+            height:sizeDialog+'px',
             position: dialogPosition,
             data:this._book
           });
