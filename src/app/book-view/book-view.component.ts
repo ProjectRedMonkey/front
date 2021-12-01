@@ -74,10 +74,14 @@ export class BookViewComponent implements OnInit {
   }
 
   showDialog(event: MouseEvent) {
-    var select = window.getSelection();
+    let select = window.getSelection();
+    let nodes = document.getElementsByName("cm");
+    let verifyContent:boolean[];
+    verifyContent = [];
+    // @ts-ignore
+    nodes.forEach(node => verifyContent.push(select.containsNode(node, true)))
     if (!!select && !!select.anchorNode &&!!select.focusNode && !!select.anchorNode.parentNode && !!select.focusNode.parentElement && !select.isCollapsed) {
-        if(select.anchorNode.parentNode.nodeName == 'LABEL' && select.focusNode.parentElement.id != "cm") {
-
+        if(select.anchorNode.parentNode.nodeName == 'LABEL' && verifyContent.indexOf(true) <= -1) {
           this._dialogRef?.close();
           this.highlighted = true;
           let y = event.y;
@@ -131,7 +135,7 @@ export class BookViewComponent implements OnInit {
     let index = innerHTML.indexOf(text);
     if (index >= 0) {
       // @ts-ignore
-      inputText.innerHTML = innerHTML.substring(0, index) + "<span id='cm' style='background-color: yellow;'>" + innerHTML.substring(index, index+text.length) + "</span>" + innerHTML.substring(index+text.length);
+      inputText.innerHTML = innerHTML.substring(0, index) + "<span name='cm' id='cm' style='background-color: yellow;'>" + innerHTML.substring(index, index+text.length) + "</span>" + innerHTML.substring(index+text.length);
     }
   }
 
