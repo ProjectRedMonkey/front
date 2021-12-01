@@ -113,6 +113,7 @@ export class BooksComponent implements OnInit {
   private _setUp(book: Book | undefined) {
     if(book != undefined && book.photo == ""){
       book.photo = "https://islandpress.org/sites/default/files/default_book_cover_2015.jpg";
+      this._books.push(book);
     }
   }
 
