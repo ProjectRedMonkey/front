@@ -149,7 +149,7 @@ export class BookViewComponent implements OnInit {
     let index = innerHTML.indexOf(text);
     if (index >= 0) {
       // @ts-ignore
-      inputText.innerHTML = innerHTML.substring(0, index) + "<span name='cm' id='cm' style='background-color: yellow;'>" + innerHTML.substring(index, index+text.length) + "</span>" + innerHTML.substring(index+text.length);
+      inputText.innerHTML = innerHTML.substring(0, index) + "<span name='cm' id='cm' style='background-color: #fff33a;'>" + innerHTML.substring(index, index+text.length) + "</span>" + innerHTML.substring(index+text.length);
     }
   }
 
@@ -227,12 +227,10 @@ export class BookViewComponent implements OnInit {
    */
   showComment(event: MouseEvent){
     let x = event.clientX, y = event.clientY;
-    if(this.span != undefined)
-    this.span.setAttribute("style", 'background-color: yellow;');
-    this.hasUpVoted = false;
     let mouseSpan = document.elementFromPoint(x, y);
-    if(mouseSpan != null) {
+    if(mouseSpan != null && this.span != mouseSpan) {
       if (mouseSpan.id == "cm") {
+        this.hasUpVoted = false;
         this.span = mouseSpan;
         if (this.span != null) {
           if (this.span.id == 'cm') {
@@ -262,14 +260,14 @@ export class BookViewComponent implements OnInit {
     let mouseSpan = document.elementFromPoint(x, y);
     if(mouseSpan != null) {
       if (mouseSpan.id == "cm") {
-        mouseSpan.setAttribute("style", 'background-color: red;cursor: pointer;');
+        mouseSpan.setAttribute("style", 'background-color: #ff3324;cursor: pointer;');
         this.lastSpan = mouseSpan;
       }
       if(mouseSpan.id != "cm" && this.printComment && this.lastSpan != this.span){
-        this.lastSpan.setAttribute("style", 'background-color: yellow;');
+        this.lastSpan.setAttribute("style", 'background-color: #fff33a;');
       }
       if(mouseSpan.id != "cm" && !this.printComment && mouseSpan != this.span){
-        this.lastSpan.setAttribute("style", 'background-color: yellow;');
+        this.lastSpan.setAttribute("style", 'background-color: #fff33a;');
       }
     }
   }
