@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {Book} from "../types/book.type";
-import {defaultIfEmpty, filter, map, mergeMap, Observable} from "rxjs";
+import {defaultIfEmpty, filter, map, mergeMap, Observable, pipe} from "rxjs";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {DialogPosition, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {AddCommentComponent} from "../shared/add-comment/add-comment.component";
@@ -21,6 +21,7 @@ export class BookViewComponent implements OnInit {
   idComment:string;
   highlighted:boolean;
   printComment:boolean;
+  hasUpVoted:boolean;
   date:string;
   // @ts-ignore
   span:Element;
@@ -32,6 +33,7 @@ export class BookViewComponent implements OnInit {
     this._comments = [];
     this.highlighted = false;
     this.printComment = false;
+    this.hasUpVoted = false;
     this.commentToPrint = {} as Comment;
     this.date = "";
   }
@@ -100,6 +102,7 @@ export class BookViewComponent implements OnInit {
   }
 
   closeDialog() {
+    this.span.setAttribute("style", 'background-color: yellow;')
     this.printComment = false;
   }
 
@@ -147,14 +150,43 @@ export class BookViewComponent implements OnInit {
   }
 
 
+  upVote(comment: Comment) {
+    if(!this.hasUpVoted){
+      this.idComment = comment.id;
+      this.hasUpVoted = true;
+      // @ts-ignore
+      comment.upVote++;
+      let c = {} as Comment;
+      c.upVote = comment.upVote;
+      c.text = comment.text;
+      c.author = comment.author;
+      //On delete les éléments inutiles pour l'API
+      // @ts-ignore
+      delete c.id;
+      // @ts-ignore
+      delete c.idOfBook;
+      // @ts-ignore
+      delete c.start;
+      // @ts-ignore
+      delete c.end;
+      this.edit(c).subscribe({
+        complete: () => {this.commentToPrint = comment
+          }
+      });
+    }
+  }
+
+
   //Affiche le commentaire quand la souris passe dessus
   showComment(event: MouseEvent){
     let x = event.clientX, y = event.clientY;
     let mouseSpan = document.elementFromPoint(x, y);
     if(mouseSpan != null) {
       if (this.span != undefined) {
-        if (this.span.id == "cm" && this.span.textContent != mouseSpan.textContent && mouseSpan.id == "cm")
-          this.span.setAttribute("style", 'background-color: yellow;')
+        if (this.span.id == "cm" && this.span.textContent != mouseSpan.textContent && mouseSpan.id == "cm") {
+          this.span.setAttribute("style", 'background-color: yellow;');
+          this.hasUpVoted = false;
+        }
       }
 
       if (mouseSpan.id == "cm") {
@@ -169,7 +201,6 @@ export class BookViewComponent implements OnInit {
                 // @ts-ignore
                 let tampon = ele.date.toString()
                 this.date = tampon.substring(8,10)+"/"+tampon.substring(5, 7)+"/"+tampon.substring(0,4)+" à "+ tampon.substring(11,16)
-                console.log(ele.date);
               }
             })
             this.printComment = true;

@@ -16,6 +16,10 @@
         <label id="children">{{commentToPrint.text}}</label><br>
       </mat-card-content>
 
+      <button id="upVote" (click)="upVote(commentToPrint)" mat-icon-button [color]="hasUpVoted?'primary':'warn'">
+        <i class="material-icons">thumb_up</i>{{commentToPrint.upVote}}
+      </button>
+
       <button (click)="modify(commentToPrint)" mat-mini-fab color="warn">
         <i class="material-icons">edit</i>
       </button>
