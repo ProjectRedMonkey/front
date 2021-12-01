@@ -3,7 +3,6 @@ import {AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, 
 import {Book} from "../../types/book.type";
 import {HttpClient} from "@angular/common/http";
 import {defaultIfEmpty, filter} from "rxjs";
-import {DatePipe} from "@angular/common";
 import {DateAdapter} from "@angular/material/core";
 
 @Component({
@@ -16,13 +15,15 @@ export class FormComponent implements OnInit {
   private readonly _save$: EventEmitter<Book>;
   private _form: FormGroup;
   private _model: Book;
-  books: Book[];
+  private _books: Book[];
+  private _isUpdateMode: boolean;
 
   constructor(private _http: HttpClient, private dateAdapter: DateAdapter<Date>) {
-    this.books = [];
+    this._books = [];
     this._cancel$ = new EventEmitter<void>();
     this._save$ = new EventEmitter<Book>();
     this._model = {} as Book;
+    this._isUpdateMode = false;
     this.dateAdapter.setLocale('en-GB');
     this._form = this.buildForm();
   }
@@ -35,7 +36,7 @@ export class FormComponent implements OnInit {
       )
       .subscribe({
         next: (books: Book[]) => {
-          this.books = books
+          this._books = books
         }
       });
     this._form = this.buildForm();
@@ -64,6 +65,9 @@ export class FormComponent implements OnInit {
 
   @Input()
   set model(value: Book) {
+    if(value.title != null){
+      this._isUpdateMode = true;
+    }
     this._model = value;
   }
 
@@ -71,10 +75,17 @@ export class FormComponent implements OnInit {
     return this._form;
   }
 
-  titleAlreadyExists(books:Book[]): ValidatorFn {
+  get isUpdateMode():boolean{
+    return this._isUpdateMode;
+  }
+
+  /**
+   * Renvoie true si le titre entré existe déjà dans la biblio
+   */
+  titleAlreadyExists(): ValidatorFn {
     return (control: AbstractControl): {[key: string]: any} => {
       let res = false;
-      this.books.forEach(ele => {if(ele.title == control.value)
+      this._books.forEach(ele => {if(ele.title == control.value)
       res = true})
       // @ts-ignore
       return !res ? null : {
@@ -83,10 +94,13 @@ export class FormComponent implements OnInit {
     };
   }
 
+  /**
+   * Construit le formulaire et ses validators
+   */
   private buildForm() {
     return new FormGroup({
       title: new FormControl('', Validators.compose([Validators.required, Validators.minLength(2),
-        Validators.maxLength(40), this.titleAlreadyExists(this.books)])),
+        Validators.maxLength(40), this.titleAlreadyExists()])),
       author: new FormControl('', Validators.compose([Validators.required, Validators.minLength(2),
         Validators.maxLength(40)])),
       category: new FormControl('', Validators.compose([Validators.required, Validators.minLength(2),

@@ -16,16 +16,16 @@ export class BookComponent implements OnInit {
   private _book:Book;
   private readonly _delete$: EventEmitter<string>;
   private _bookDialog: MatDialogRef<DialogComponent> | undefined;
-  dateToPrint:Date;
+  //Pour afficher le bon format de date
+  private _dateToPrint:Date;
 
   constructor(private _http: HttpClient, private _router:Router, private _dialog: MatDialog, public datepipe: DatePipe) {
     this._book = {} as Book;
     this._delete$ = new EventEmitter<string>();
-    this.dateToPrint = new Date();
+    this._dateToPrint = new Date();
   }
 
   ngOnInit(): void {
-
   }
 
   @Output('delete') get delete$(): EventEmitter<string> {
@@ -40,22 +40,32 @@ export class BookComponent implements OnInit {
     return this._book;
   }
 
+  get dateToPrint(): Date {
+    return this._dateToPrint;
+  }
+
   @Input()
   set book(value: Book) {
     // @ts-ignore
-    this.dateToPrint = this.datepipe.transform(value.date, 'dd/MM/yyyy');
+    this._dateToPrint = this.datepipe.transform(value.date, 'dd/MM/yyyy');
     this._book = value;
   }
 
+  /**
+   * Renvoie vers la page du livre choisi
+   * @param id du livre
+   */
   navigate(id:string) {
     this._router.navigate(["/books/"+id]);
   }
 
+  /**
+   * Affiche le dialog permettant de modifier un livre, applique la modification après fermeture
+   */
   modify() {
     this._bookDialog = this._dialog.open(DialogComponent,{
       data:this._book
     });
-
 
     this._bookDialog.afterClosed().pipe(
       filter((book: Book | undefined) => !!book),
@@ -65,11 +75,16 @@ export class BookComponent implements OnInit {
       mergeMap((book: Book | undefined) => this._edit(book))).subscribe({
       error: () => this._router.navigate(['/books']),
       // @ts-ignore
-      complete: () => this.dateToPrint = this.datepipe.transform(this.book.date, 'dd/MM/yyyy')
+      complete: () => this._dateToPrint = this.datepipe.transform(this.book.date, 'dd/MM/yyyy')
     });
 
   }
 
+  /**
+   * Modifie un livre dans l'API
+   * @param book le nouveau livre
+   * @private
+   */
   private _edit(book: Book | undefined):Observable<Book> {
     if(!!book) {
       //Bricolage pour Charles
@@ -80,7 +95,11 @@ export class BookComponent implements OnInit {
     return this._http.put<Book>("http://localhost:3000/books/"+this._book.id, book,  { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) });
   }
 
-  //Pour mettre à jour le modele du component
+  /**
+   * Met à jour le livre
+   * @param b
+   * @private
+   */
   private updateBook(b:Book) {
     this._book.title = b.title;
     this._book.author = b.author;
