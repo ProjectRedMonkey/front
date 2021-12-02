@@ -23,8 +23,7 @@ export class BookViewComponent implements OnInit {
   printComment:boolean;
   hasUpVoted:boolean;
   date:string;
-  // @ts-ignore
-  span:Element;
+  span:Element | null;
   // @ts-ignore
   lastSpan:Element;
 
@@ -36,6 +35,7 @@ export class BookViewComponent implements OnInit {
     this.highlighted = false;
     this.printComment = false;
     this.hasUpVoted = false;
+    this.span = document.getElementById("title");
     this.commentToPrint = {} as Comment;
     this.date = "";
   }
@@ -127,7 +127,9 @@ export class BookViewComponent implements OnInit {
    * Ferme le commentaire
    */
   closeDialog() {
-    this.span.setAttribute("style", 'background-color: yellow;')
+    if(this.span != null)
+      this.span.setAttribute("style", 'background-color: #fff33a;');
+    this.span = null;
     this.printComment = false;
   }
 
@@ -149,7 +151,7 @@ export class BookViewComponent implements OnInit {
     let index = innerHTML.indexOf(text);
     if (index >= 0) {
       // @ts-ignore
-      inputText.innerHTML = innerHTML.substring(0, index) + "<span name='cm' id='cm' style='background-color: yellow;'>" + innerHTML.substring(index, index+text.length) + "</span>" + innerHTML.substring(index+text.length);
+      inputText.innerHTML = innerHTML.substring(0, index) + "<span name='cm' id='cm' style='background-color: #fff33a;'>" + innerHTML.substring(index, index+text.length) + "</span>" + innerHTML.substring(index+text.length);
     }
   }
 
@@ -164,10 +166,13 @@ export class BookViewComponent implements OnInit {
     });
     bookDialog.afterClosed().pipe(
       filter((comment: Comment | undefined) => !!comment),
-      mergeMap((comment: Comment | undefined) => this.edit(comment))).subscribe({
-      complete: () => {this.commentToPrint.text = comment.text
-      this.ngOnInit()
-      this.closeDialog()}
+      mergeMap((c: Comment | undefined) => this.edit(c))).subscribe({
+      next: (c:Comment) => {
+        this.commentToPrint = c
+        // @ts-ignore
+        let tampon = c.date.toString();
+        this.date = tampon.substring(8,10)+"/"+tampon.substring(5, 7)+"/"+tampon.substring(0,4)+" à "+ tampon.substring(11,16);
+      }
     });
   }
 
@@ -227,12 +232,12 @@ export class BookViewComponent implements OnInit {
    */
   showComment(event: MouseEvent){
     let x = event.clientX, y = event.clientY;
-    if(this.span != undefined)
-    this.span.setAttribute("style", 'background-color: yellow;');
-    this.hasUpVoted = false;
     let mouseSpan = document.elementFromPoint(x, y);
-    if(mouseSpan != null) {
+    if(this.span != undefined && mouseSpan!= undefined && mouseSpan.id == "cm" && this.span != mouseSpan)
+    this.span.setAttribute("style", 'background-color: #fff33a;');
+    if(mouseSpan != null && this.span != mouseSpan) {
       if (mouseSpan.id == "cm") {
+        this.hasUpVoted = false;
         this.span = mouseSpan;
         if (this.span != null) {
           if (this.span.id == 'cm') {
@@ -262,14 +267,15 @@ export class BookViewComponent implements OnInit {
     let mouseSpan = document.elementFromPoint(x, y);
     if(mouseSpan != null) {
       if (mouseSpan.id == "cm") {
-        mouseSpan.setAttribute("style", 'background-color: red;');
+        mouseSpan.setAttribute("style", 'background-color: #ff3324;cursor: pointer;');
         this.lastSpan = mouseSpan;
       }
       if(mouseSpan.id != "cm" && this.printComment && this.lastSpan != this.span){
-        this.lastSpan.setAttribute("style", 'background-color: yellow;');
+        this.lastSpan.setAttribute("style", 'background-color: #fff33a;');
       }
       if(mouseSpan.id != "cm" && !this.printComment && mouseSpan != this.span){
-        this.lastSpan.setAttribute("style", 'background-color: yellow;');
+        if(this.lastSpan != undefined)
+        this.lastSpan.setAttribute("style", 'background-color: #fff33a;');
       }
     }
   }
