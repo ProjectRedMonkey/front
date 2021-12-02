@@ -128,7 +128,7 @@ export class BookViewComponent implements OnInit {
    */
   closeDialog() {
     if(this.span != null)
-      this.span.setAttribute("style", 'background-color: yellow;');
+      this.span.setAttribute("style", 'background-color: #fff33a;');
     this.span = null;
     this.printComment = false;
   }
@@ -230,7 +230,7 @@ export class BookViewComponent implements OnInit {
   showComment(event: MouseEvent){
     let x = event.clientX, y = event.clientY;
     let mouseSpan = document.elementFromPoint(x, y);
-    if(this.span != undefined && this.span != mouseSpan)
+    if(this.span != undefined && mouseSpan!= undefined && mouseSpan.id == "cm" && this.span != mouseSpan)
     this.span.setAttribute("style", 'background-color: #fff33a;');
     if(mouseSpan != null && this.span != mouseSpan) {
       if (mouseSpan.id == "cm") {
