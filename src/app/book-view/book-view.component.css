@@ -86,6 +86,10 @@ mat-card-content{
 
 #children{
   border:black;
+  display: flex;
+  justify-content: space-between;
+  width: 60%;
+  margin: .5rem;
 }
 
 button{
