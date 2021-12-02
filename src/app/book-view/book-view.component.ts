@@ -168,7 +168,10 @@ export class BookViewComponent implements OnInit {
       filter((comment: Comment | undefined) => !!comment),
       mergeMap((c: Comment | undefined) => this.edit(c))).subscribe({
       next: (c:Comment) => {
+        let index = this._comments.indexOf(this.commentToPrint)
+        this._comments[index] = c
         this.commentToPrint = c
+
         // @ts-ignore
         let tampon = c.date.toString();
         this.date = tampon.substring(8,10)+"/"+tampon.substring(5, 7)+"/"+tampon.substring(0,4)+" à "+ tampon.substring(11,16);
