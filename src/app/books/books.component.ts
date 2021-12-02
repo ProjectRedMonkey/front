@@ -86,11 +86,10 @@ export class BooksComponent implements OnInit {
       mergeMap((book: Book | undefined) => this._add(book))
     )
       .subscribe({
-        error: () => this._dialogStatus = 'inactive',
-        complete: () => {
-          this._dialogStatus = 'inactive'
-        }
-      });
+        next:(book:Book) => this._books.push(book),
+          error: () => this._dialogStatus = 'inactive',
+            complete: () => this._dialogStatus = 'inactive'
+        });
   }
 
   get dialogStatus(): string {
@@ -113,7 +112,6 @@ export class BooksComponent implements OnInit {
   private _setUp(book: Book | undefined) {
     if(book != undefined && book.photo == ""){
       book.photo = "https://islandpress.org/sites/default/files/default_book_cover_2015.jpg";
-      this._books.push(book);
     }
   }
 

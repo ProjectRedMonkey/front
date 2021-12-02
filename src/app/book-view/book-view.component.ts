@@ -23,8 +23,7 @@ export class BookViewComponent implements OnInit {
   printComment:boolean;
   hasUpVoted:boolean;
   date:string;
-  // @ts-ignore
-  span:Element;
+  span:Element | null;
   // @ts-ignore
   lastSpan:Element;
 
@@ -36,6 +35,7 @@ export class BookViewComponent implements OnInit {
     this.highlighted = false;
     this.printComment = false;
     this.hasUpVoted = false;
+    this.span = document.getElementById("title");
     this.commentToPrint = {} as Comment;
     this.date = "";
   }
@@ -127,7 +127,9 @@ export class BookViewComponent implements OnInit {
    * Ferme le commentaire
    */
   closeDialog() {
-    this.span.setAttribute("style", 'background-color: yellow;')
+    if(this.span != null)
+      this.span.setAttribute("style", 'background-color: yellow;');
+    this.span = null;
     this.printComment = false;
   }
 
@@ -164,10 +166,10 @@ export class BookViewComponent implements OnInit {
     });
     bookDialog.afterClosed().pipe(
       filter((comment: Comment | undefined) => !!comment),
-      mergeMap((comment: Comment | undefined) => this.edit(comment))).subscribe({
-      complete: () => {this.commentToPrint.text = comment.text
-      this.ngOnInit()
-      this.closeDialog()}
+      mergeMap((c: Comment | undefined) => this.edit(c))).subscribe({
+      next: (c:Comment) => {
+        this.commentToPrint = c
+      }
     });
   }
 
@@ -269,6 +271,7 @@ export class BookViewComponent implements OnInit {
         this.lastSpan.setAttribute("style", 'background-color: #fff33a;');
       }
       if(mouseSpan.id != "cm" && !this.printComment && mouseSpan != this.span){
+        if(this.lastSpan != undefined)
         this.lastSpan.setAttribute("style", 'background-color: #fff33a;');
       }
     }
