@@ -169,6 +169,9 @@ export class BookViewComponent implements OnInit {
       mergeMap((c: Comment | undefined) => this.edit(c))).subscribe({
       next: (c:Comment) => {
         this.commentToPrint = c
+        // @ts-ignore
+        let tampon = c.date.toString();
+        this.date = tampon.substring(8,10)+"/"+tampon.substring(5, 7)+"/"+tampon.substring(0,4)+" à "+ tampon.substring(11,16);
       }
     });
   }
